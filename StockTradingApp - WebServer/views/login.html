@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+ 
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+ 
+    <body>
+        <li><a href="/signup">Create account</a></li>
+        <div class="vertical-container">
+            <h1 class="title">
+                SPYBOT 3: SENG350 ASSIGNMENT
+            </h1>
+            
+            <form id='signin-form'>
+                <h2>LOGIN</h2>
+                <input type="text" placeholder="Username" name='username'></input>
+                <input type="password" placeholder="Password" name='password'></input>
+                <button type="submit" >Sign In</button>
+            </form>
+        </div>
+
+        <script type="text/javascript">
+            const form = document.querySelector('form');
+            form.addEventListener('submit', async (err) => {
+                err.preventDefault();
+
+                //get the values
+                const username = form.username.value;
+                const password = form.password.value;
+
+                //TODO: Form validation and handle errors
+                try{
+                    const res = await fetch('/', {
+                        method: 'POST',
+                        body: JSON.stringify(
+                            {
+                                username: username,
+                                password: password
+                            }
+                        ),
+                        headers: {'Content-Type':'application/json'} 
+                    });
+                    const data = await res.json();
+                    console.log(data);
+                    if(data.errors){
+                        console.log("We have errors")
+                    }
+                    //successful authentication
+                    if(data.user){
+                        //redirect to find match screen
+                        location.assign('/index');
+                    }
+                }catch(err){
+                    
+                    console.log(err)
+                }
+
+            })
+        </script>
+
+    </body>
+ 
+</html>
