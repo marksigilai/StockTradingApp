@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    padding: 0;
+ 
+    background-color: rgb(63, 63, 63);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: space-between;
+}
+li{
+    margin: 1rem;
+    font-size: 1.5rem;
+    list-style-type: none;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+a{
+
+    background-color: black;
+    padding: 0.5rem;
+    text-decoration: none;
+}
+a:visited{
+    color: rgb(182, 182, 182);
+}
+a:hover{
+    color: rgb(219, 219, 219);
+}
+
+.container {
+    margin: 0.2rem;
+    background-color: rgb(78, 84, 97);
+    padding: 30px;
+    border-radius: 0.5em;
+    background-color: rgb(56, 118, 168);
+}
+
+#create-container {
+    visibility: hidden;
+    display: none;
+}
+
+#rooms-container {
+    visibility: hidden;
+    display: none;
+}
+
+#game-container {
+    visibility: hidden;
+    display: none;
+}
+
+#waiting-container {
+    visibility: hidden;
+    display: none;
+}
+
+.button {
+    width: auto;
+    padding: 20px;
+    background-color: rgb(56, 118, 168);
+} .button:hover {
+    background-color: rgb(39, 84, 121);
+    cursor: pointer;
+}
+
+
+.vertical-container > h1{
+    font-size: 4rem;
+    color: white;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bolder;
+    margin: 1rem;
+}
+.vertical-container {
+    flex-direction: column;
+}
+.vertical-container > form {
+    border: 0.2rem solid black;
+    margin: 1rem;
+    padding: 1rem;
+}
+.vertical-container > h2{
+    font-size: 4rem;
+    color: black;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-style: italic;
+    font-weight: bolder;
+    margin: 0;
+}
