@@ -28,8 +28,26 @@ def get_user_stocks():
     #make db query for all user stocks
     return "TODO: stock info for user (optional param: stock name)"
 
+#Generic functions
+@app.route('/ADD', methods=['POST'])
+def add_funds_to_account():
+    query_params = request.args
+    user_id = query_params.get("id")
+    amount = query_params.get("amount")
+
+    #update user account with added money
+    return "TODO: add user funds"
+
+@app.route('/QUOTE', methods=["GET"])
+def quote_stock():
+    query_params = request.args
+    user_id = query_params.get("id")
+    stock_name = query_params.get("stock")
+    
+    return "TODO: quote server"
+
 #Buy
-@app.route('/buy', methods=['POST'])
+@app.route('/BUY', methods=['POST'])
 def buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -42,7 +60,7 @@ def buy_stock():
     #make db insertion for buy amount
     return "TODO: insert buy in db"
 
-@app.route('/commitbuy', methods=['POST'])
+@app.route('/COMMIT_BUY', methods=['POST'])
 def commit_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -55,7 +73,7 @@ def commit_buy_stock():
 
     return "TODO: commit buy if recent buy exists"
 
-@app.route('/cancelbuy', methods=['POST'])
+@app.route('/CANCEL_BUY', methods=['POST'])
 def cancel_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -68,7 +86,7 @@ def cancel_buy_stock():
     return "TODO: cancel buy if recent buy exists"
 
 #Sell
-@app.route('/sell', methods=['POST'])
+@app.route('/SELL', methods=['POST'])
 def sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -81,7 +99,7 @@ def sell_stock():
     #make db insertion for sell amount
     return "TODO: insert sell in db"
 
-@app.route('/commitsell', methods=['POST'])
+@app.route('/COMMIT_SELL', methods=['POST'])
 def commit_sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -94,7 +112,7 @@ def commit_sell_stock():
 
     return "TODO: commit sell if recent sell exists"
 
-@app.route('/cancelsell', methods=['POST'])
+@app.route('/CANCEL_SELL', methods=['POST'])
 def cancel_sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -107,7 +125,7 @@ def cancel_sell_stock():
     return "TODO: cancel sell if recent sell exists"
 
 #Set Buy
-@app.route('/setbuy', methods=['POST'])
+@app.route('/SET_BUY_AMOUNT', methods=['POST'])
 def set_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -122,7 +140,7 @@ def set_buy_stock():
 
     return "TODO: create buy amount"
 
-@app.route('/setbuytrigger', methods=['POST'])
+@app.route('/SET_BUY_TRIGGER', methods=['POST'])
 def set_buy_stock_trigger():
     query_params = request.args
     user_id = query_params.get("id")
@@ -134,7 +152,7 @@ def set_buy_stock_trigger():
 
     return "TODO: set buy trigger"
 
-@app.route('/cancelsetbuy', methods=['POST'])
+@app.route('/CANCEL_SET_BUY', methods=['POST'])
 def cancel_set_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -148,8 +166,8 @@ def cancel_set_buy_stock():
     return "TODO: cancel set buy"
 
 #Set Sell
-@app.route('/setsell', methods=['POST'])
-def sell_stock():
+@app.route('/SET_SELL_AMOUNT', methods=['POST'])
+def set_sell_stock_amount():
     query_params = request.args
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
@@ -163,7 +181,7 @@ def sell_stock():
 
     return "TODO: create sell amount"
 
-@app.route('/setselltrigger', methods=['POST'])
+@app.route('/SET_SELL_TRIGGER', methods=['POST'])
 def set_sell_stock_trigger():
     query_params = request.args
     user_id = query_params.get("id")
@@ -175,7 +193,7 @@ def set_sell_stock_trigger():
 
     return "TODO: set sell trigger"
 
-@app.route('/cancelsetsell', methods=['POST'])
+@app.route('/CANCEL_SET_SELL', methods=['POST'])
 def cancel_set_sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -189,7 +207,7 @@ def cancel_set_sell_stock():
     return "TODO: cancel set sell"
 
 #Logs
-@app.route('/userdumplog', methods=['GET'])
+@app.route('/USER_DUMPLOG', methods=['GET'])
 def user_dumplog_endpoint():
     query_params = request.args
     user_id = query_params.get('id')
@@ -199,7 +217,7 @@ def user_dumplog_endpoint():
 
     return "TODO: user dumplogs"
 
-@app.route('/dumplog', methods=['GET'])
+@app.route('/DUMPLOG', methods=['GET'])
 def dumplog_endpoint():
     query_params = request.args
     output_file = query_params.get('filename')
@@ -208,7 +226,7 @@ def dumplog_endpoint():
 
     return "TODO: all dumplogs"
 
-@app.route('/summary', methods=['GET'])
+@app.route('/DISPLAY_SUMMARY', methods=['GET'])
 def display_summary_endpoint():
     query_params = request.args
     user_id = query_params.get("id")
