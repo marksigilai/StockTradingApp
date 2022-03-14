@@ -7,7 +7,7 @@ app.config["DEBUG"] = True
 
 
 #Database queries
-@app.route('/useraccount', methods=['GET'])
+@app.route('/useraccount', methods=['POST'])
 def get_user():
     query_params = request.args
     user_id = query_params.get("id")
@@ -16,7 +16,7 @@ def get_user():
 
     return "TODO: user account info"
 
-@app.route('/userstocks', methods=['GET'])
+@app.route('/userstocks', methods=['POST'])
 def get_user_stocks():
     query_params = request.args
     user_id = query_params.get("id")
@@ -38,7 +38,7 @@ def add_funds_to_account():
     #update user account with added money
     return "TODO: add user funds"
 
-@app.route('/QUOTE', methods=["GET"])
+@app.route('/QUOTE', methods=["POST"])
 def quote_stock():
     query_params = request.args
     user_id = query_params.get("id")
@@ -207,7 +207,7 @@ def cancel_set_sell_stock():
     return "TODO: cancel set sell"
 
 #Logs
-@app.route('/USER_DUMPLOG', methods=['GET'])
+@app.route('/USER_DUMPLOG', methods=['POST'])
 def user_dumplog_endpoint():
     query_params = request.args
     user_id = query_params.get('id')
@@ -217,7 +217,7 @@ def user_dumplog_endpoint():
 
     return "TODO: user dumplogs"
 
-@app.route('/DUMPLOG', methods=['GET'])
+@app.route('/DUMPLOG', methods=['POST'])
 def dumplog_endpoint():
     query_params = request.args
     output_file = query_params.get('filename')
@@ -226,7 +226,7 @@ def dumplog_endpoint():
 
     return "TODO: all dumplogs"
 
-@app.route('/DISPLAY_SUMMARY', methods=['GET'])
+@app.route('/DISPLAY_SUMMARY', methods=['POST'])
 def display_summary_endpoint():
     query_params = request.args
     user_id = query_params.get("id")

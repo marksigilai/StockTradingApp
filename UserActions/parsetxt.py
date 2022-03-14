@@ -5,15 +5,17 @@ import requests
 Use: single command line arg must be the filename to parse
 """
 
-input_file = sys.argv[0]
+input_file = sys.argv[1]
 f = open(input_file, "r")
 
 lines = f.read()
 
 commands = []
 
-for line in lines:
-    command = line.split(' ')[1]
+for line in lines.split('\n'):
+    split_line = [x for x in line.split(' ') if x != '']
+    print(split_line)
+    command = split_line[1]
     tokens = command.split(',')
     action = tokens[0]
     args = tokens[1:]
@@ -62,4 +64,4 @@ for line in lines:
         print("invalid action")
 
     commands.append(cmd)
-    req = requests.post("http://localhost:8123/{}".format(action), json=cmd)
+    req = requests.post("http://localhost:5000/{}".format(action), json=cmd)
