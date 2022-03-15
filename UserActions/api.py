@@ -2,6 +2,10 @@
 import flask
 from flask import request, jsonify
 
+import accounts
+import quotes
+import buy
+
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
@@ -36,7 +40,8 @@ def add_funds_to_account():
     amount = query_params.get("amount")
 
     #update user account with added money
-    return "TODO: add user funds"
+    result = accounts.add_funds(user_id, amount)
+    return result
 
 @app.route('/QUOTE', methods=["POST"])
 def quote_stock():
@@ -44,7 +49,8 @@ def quote_stock():
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
     
-    return "TODO: quote server"
+    result = quotes.get_quote(user_id, stock_name)
+    return result
 
 #Buy
 @app.route('/BUY', methods=['POST'])
@@ -54,36 +60,24 @@ def buy_stock():
     stock_name = query_params.get("stock")
     amount = query_params.get("amount")
 
-    #query accounts db for amount of money
-    #if sufficient, place buy in trans history to wait for commit buy
-
-    #make db insertion for buy amount
-    return "TODO: insert buy in db"
+    result = buy.start_buy(user_id, stock_name, amount)
+    return result
 
 @app.route('/COMMIT_BUY', methods=['POST'])
 def commit_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
     
-    #commit buy if a buy within the last 60 seconds
-    #query for user id buy within 60 seconds (use timestamp difference)
-    #if not exists, don't do anything
-    #else, update db with updated stock amount (need to check if user already has the stock)
-    #       and record event
-
-    return "TODO: commit buy if recent buy exists"
+    result = buy.commit_buy(user_id)
+    return result
 
 @app.route('/CANCEL_BUY', methods=['POST'])
 def cancel_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
     
-    #cancel buy if a buy within the last 60 seconds
-    #query for user id buy within 60 seconds (use timestamp difference)
-    #if not exists, don't do anything
-    #else, record cancel event
-
-    return "TODO: cancel buy if recent buy exists"
+    result = buy.cancel_buy(user_id)
+    return result
 
 #Sell
 @app.route('/SELL', methods=['POST'])

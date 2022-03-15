@@ -1,55 +1,111 @@
-from network import QuoteServer
+import network
 from datetime import datetime
+import json
+import time
+import pymongo
 
 import config
+import quotes
+
+log_db = config.client.logs
+accounts_db = config.client.accounts
 
 def start_buy(user_id, stock, amount):
-    #query accounts db for amount of money
-    amount_query = '' + user_id
-    amount_result = amount_query
-    if amount_result < amount:
-        return None
+    amt_result = accounts_db.find_one(
+        {'id': user_id},
+        projection={'_id': False, 'amount': True}
+    )
+    existing_amount = float(json.loads(amt_result)['amount'])
+    if existing_amount < amount:
+        return "Cannot buy {} of stock {}".format(amount, stock)
+
+    num_stocks = quotes.num_of_stocks(user_id, stock, amount)
+    timestamp = time.time()
 
     #if sufficient, place buy in trans history to wait for commit buy
-    update_trans_query = '' + user_id + stock + amount
-    result_update = update_trans_query
-    return result_update
+    log_result = log_db.insert_one(
+        {'id': user_id, 
+        'action': 'BUY',
+        'stock': [{'name': stock, 'amount': num_stocks}],
+        'amount': amount,
+        'timestamp': timestamp
+        }
+    )
+    return log_result
 
 
 def commit_buy(user_id):
+    timestamp = time.time()
     #query for user id buy within 60 seconds
-    recent_buy_query = ''+user_id+datetime.now()
-    recent_buy_result = recent_buy_query
+    log_result = json.loads(log_db.find_one(
+        {"$and": [
+            {'id': user_id}, 
+            {"$or": [
+                {'action': 'BUY'}, 
+                {'action': 'COMMIT_BUY'}, 
+                {'action': 'CANCEL_BUY'}
+            ]}        
+        ]},
+    ).sort('timestamp', pymongo.DESCENDING))
 
-    #if not exists, return
-    if not recent_buy_result:
-        return None
+    action = log_result['action']
+    if action != 'BUY': 
+        return "Latest transaction was not buy (cancel or commit)"
+    stock = log_result['stock']
+    amount = log_result['amount']
+    old_timestamp = float(log_result['timestamp'])
 
-    #check if user already has the stock
-    already_exists_query = ''+user_id+recent_buy_result#['stock']
-    already_exists_result = already_exists_query
-    
-    #update accounts db with updated stock amount
-    update_query = ''+user_id+recent_buy_result
-    update_result = update_query
+    if not log_result or old_timestamp > timestamp + 60:
+        #no recent buy action for this user
+        return "No recent buy for user {}".format(user_id)
 
-    #create transaction log
-    trans_log_query = ''+user_id
-    trans_log_result = trans_log_query
+    update_accounts_result = accounts_db.update_one(
+        {'id': user_id, 'stock.name': stock['name']},
+        {'$inc': {'stock.$.amount': stock['amount']}}
+    )
 
-    return update_result
+    log_result1 = log_db.insert_one(
+        {'id': user_id, 
+        'action': 'COMMIT_BUY',
+        'stock': [{'name': stock['name'], 'amount': stock['amount']}],
+        'amount': amount,
+        'timestamp': timestamp
+        }
+    )
+    return log_result1
 
 def cancel_buy(user_id):
+    timestamp = time.time()
     #query for user id buy within 60 seconds
-    recent_buy_query = ''+user_id+datetime.now()
-    recent_buy_result = recent_buy_query
+    log_result = json.loads(log_db.find_one(
+        {"$and": [
+            {'id': user_id}, 
+            {"$or": [
+                {'action': 'BUY'}, 
+                {'action': 'COMMIT_BUY'}, 
+                {'action': 'CANCEL_BUY'}
+            ]}
+        ]},
+    ).sort('timestamp', pymongo.DESCENDING))
 
-    #if not exists, return
-    if not recent_buy_result:
-        return None
+    action = log_result['action']
+    if action != 'BUY': 
+        return "Latest transaction was cancel"
+    stock = log_result['stock']
+    amount = log_result['amount']
+    old_timestamp = float(log_result['timestamp'])
 
-    #create a transaction log
-    trans_log_query = ''+user_id
-    trans_log_result = trans_log_query
+    if not log_result or old_timestamp > timestamp + 60:
+        #no recent buy action for this user
+        return "No recent buy for user {}".format(user_id)
 
-    return "Success"
+    log_result1 = log_db.insert_one(
+        {'id': user_id, 
+        'action': 'CANCEL_BUY',
+        'stock': [{'name': stock['name'], 'amount': stock['amount']}],
+        'amount': amount,
+        'timestamp': timestamp
+        }
+    )
+    return log_result1
+
