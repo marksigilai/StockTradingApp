@@ -5,6 +5,9 @@ from flask import request, jsonify
 import accounts
 import quotes
 import buy
+import sell
+import setbuy
+import setsell
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -16,9 +19,8 @@ def get_user():
     query_params = request.args
     user_id = query_params.get("id")
 
-    #make db query using user_id to get all user info
-
-    return "TODO: user account info"
+    result = accounts.find_user_account(user_id)
+    return result
 
 @app.route('/userstocks', methods=['POST'])
 def get_user_stocks():
@@ -27,10 +29,10 @@ def get_user_stocks():
     try:
         stock_name = query_params.get("stock")
     except:
-        stock_name = None
-
-    #make db query for all user stocks
-    return "TODO: stock info for user (optional param: stock name)"
+        stock_name = ''
+    
+    result = accounts.get_user_stocks(user_id, stock_name)
+    return result
 
 #Generic functions
 @app.route('/ADD', methods=['POST'])
@@ -87,36 +89,24 @@ def sell_stock():
     stock_name = query_params.get("stock")
     amount = query_params.get("amount")
 
-    #query accounts db for amount of stock
-    #if sufficient, place sell in trans history to wait for commit sell
-
-    #make db insertion for sell amount
-    return "TODO: insert sell in db"
+    result = sell.start_sell(user_id, stock_name, amount)
+    return result
 
 @app.route('/COMMIT_SELL', methods=['POST'])
 def commit_sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
     
-    #commit buy if a sell within the last 60 seconds
-    #query for user id sell within 60 seconds (use timestamp difference)
-    #if not exists, don't do anything
-    #else, update db with updated stock amount
-    #       and record event
-
-    return "TODO: commit sell if recent sell exists"
+    result = sell.commit_sell(user_id)
+    return result
 
 @app.route('/CANCEL_SELL', methods=['POST'])
 def cancel_sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
-    
-    #cancel sell if a sell within the last 60 seconds
-    #query for user id sell within 60 seconds (use timestamp difference)
-    #if not exists, don't do anything
-    #else, record cancel event
 
-    return "TODO: cancel sell if recent sell exists"
+    result = sell.cancel_sell(user_id)
+    return result
 
 #Set Buy
 @app.route('/SET_BUY_AMOUNT', methods=['POST'])
