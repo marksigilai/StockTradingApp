@@ -8,6 +8,7 @@ import buy
 import sell
 import setbuy
 import setsell
+import logs
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -197,27 +198,23 @@ def user_dumplog_endpoint():
     user_id = query_params.get('id')
     output_file = query_params.get('filename')
 
-    #query transaction db for all transactions for this user
-
-    return "TODO: user dumplogs"
+    result = logs.user_dumplog(user_id, output_file)
+    return result
 
 @app.route('/DUMPLOG', methods=['POST'])
 def dumplog_endpoint():
     query_params = request.args
     output_file = query_params.get('filename')
 
-    #query transaction db for all transactions for all users
-
-    return "TODO: all dumplogs"
+    result = logs.dumplog(output_file)
+    return result
 
 @app.route('/DISPLAY_SUMMARY', methods=['POST'])
 def display_summary_endpoint():
     query_params = request.args
     user_id = query_params.get("id")
 
-    #query transaction db for all transactions for this user
-    #query users for user account info (account, amount, triggers, etc.)
-
-    return "TODO: summary"
+    result = logs.display_summary(user_id)
+    return result
 
 app.run()

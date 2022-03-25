@@ -7,8 +7,8 @@ import pymongo
 import config
 import quotes
 
-log_db = config.client.logs
-accounts_db = config.client.accounts
+log_db = config.collection.logs
+accounts_db = config.collection.accounts
 
 def start_buy(user_id, stock, amount):
     amt_result = accounts_db.find_one(
