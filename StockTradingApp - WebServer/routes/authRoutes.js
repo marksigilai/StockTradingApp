@@ -21,6 +21,7 @@ router.post('/login', async (req, res) => {
         const user = await User.login(username, password);
         const token = createToken(user._id);
         console.log(token)
+        
         //max age of 3 days
         res.cookie('jwt', token, {httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60})
         res.status(201).json({user: user._id, token:token})

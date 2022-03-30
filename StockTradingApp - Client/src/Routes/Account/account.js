@@ -1,32 +1,19 @@
 import React, { Component } from 'react';
+import Summary from '../../Components/Summary/summary.js'
+import Funds from '../../Components/Funds/funds.js'
+
+import './account.css';
+
 
 class Account extends Component {
   
     render() {
       return (
-        <div className="homepage">
+        <div className="Account">
 
-          ADD
+          <Summary userid = {this.props.userid}/>
 
-          CANCEL_BUY
-
-          CANCEL_SELL
-
-          SELL
-
-          COMMIT_SELL
-
-          CANCEL_SET_BUY
-
-          CANCEL_SET_SELL
-
-          DUMPLOG
-
-          DISPLAY_SUMMARY
-
-          SET_SELL_AMOUNT
-
-          SET_SELL_TRIGGER
+          <Funds/>
 
         </div>
       );

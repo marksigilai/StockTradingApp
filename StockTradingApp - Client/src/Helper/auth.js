@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 
-class Auth{
+class Transactions{
 
     constructor(){
 
@@ -123,4 +123,4 @@ class Auth{
     }
 }
 
-export default new Auth();
+export default new Transactions();

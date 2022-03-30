@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-
 import Login from '../../Components/Login/login'
 import Signup from '../../Components/Signup/signup'
-
-import axios from 'axios';
+import './landing.css';
 
 
 
@@ -24,7 +22,6 @@ class Landing extends Component{
     this.setState({
       hasAccount: true
     })
-
   }
 
   toggleFalse = () => {
@@ -32,22 +29,10 @@ class Landing extends Component{
     this.setState({
       hasAccount: false
     })
-  }
-      
-    // fetching the GET route from the Express server which matches the GET route from server.js
-    /*
-    callBackendAPI = async () => {
-        axios.get('index').then(res => {
-            console.log("Hiiiii");
-            if (res.status !== 200) {
-                throw Error(res.message) 
-            }
-            return res;
-        });
 
-    };
-  */
- 
+
+  }
+
   render() {
 
 
@@ -65,14 +50,14 @@ class Landing extends Component{
 
     return (
 
-        <div className ="landing">
+        <div className ="Landing">
 
-          <div className=""> This is the landing page </div>
+          <div className ="Landing-container">
+            <button className ="Landing-btn" onClick = { this.toggleTrue } style = {{ borderBottom: this.state.hasAccount ? '2px solid black' : undefined }} > Log in </button>
+            <button className ="Landing-btn" onClick = { this.toggleFalse } style = {{ borderBottom: !this.state.hasAccount ? '2px solid black' : undefined }} > Sign up </button>
+          </div>
 
-          <button onClick = { this.toggleTrue } > Log in </button>
-
-          <button onClick = { this.toggleFalse } > Sign up </button>
-
+            
           { content }
 
         </div>

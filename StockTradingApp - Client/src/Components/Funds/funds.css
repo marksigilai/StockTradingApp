@@ -1,0 +1,78 @@
+.Funds{
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    max-width: 300px;
+}
+
+.Funds-header{
+    font-size: 40px;
+    margin: 10px;
+}
+
+.Funds-subheading{
+    font-size: 20px;
+    margin: 5px;
+    padding: 5px;
+    color: grey;
+}
+
+.Funds-label{
+    background-color: black;
+    color: white;
+
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+
+    margin: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+}
+
+.Funds-input{
+    background-color: black;
+    color: white;
+
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+
+    margin: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+}
+.Funds-submitBtn{
+    background-color: black;
+    color: white;
+
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+
+    margin: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+}
+
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: grey;
+    opacity: 1; /* Firefox */
+    font-size: 15px;
+  }

@@ -4,7 +4,6 @@ import Navbar from './Components/Navbar/navbar';
 import Homepage from './Routes/Homepage/homepage';
 import Landing from './Routes/Landing/landing';
 import Account from './Routes/Account/account'
-import Settings from './Routes/Settings/settings'
 import { Route, Routes } from 'react-router-dom';
 
 
@@ -97,14 +96,12 @@ class App extends Component {
     return (
       <div class = "app">
         
-          <div className="App"> App.js -- Hello I am the grandfather element </div>
           <Navbar logOut = { this.logOut } />
 
           <Routes>
 
             <Route exact path="/" element={ <Homepage /> }/>  
             <Route exact path="/account" element={ <Account /> }/>  
-            <Route exact path="/settings" element={ <Settings /> }/>  
 
           </Routes>
           

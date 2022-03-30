@@ -1,0 +1,64 @@
+.AddFunds{
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    margin: 20px;
+    border-radius: 5px;
+    background-color: rgb(230, 230, 230);
+    max-width: 300px;
+}
+
+.AddFunds-header{
+    font-size: 40px;
+    margin: 10px;
+}
+
+.AddFunds-subheading{
+    font-size: 20px;
+    margin: 5px;
+    padding: 5px;
+    color: grey;
+}
+
+.AddFunds-label{
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(53, 53, 53);
+
+}
+
+.AddFunds-input{
+    
+    border: none;
+    border-radius: 5px;
+    color: black;
+    width: 80%;
+    padding: 15px;
+    margin-top: 5px;
+
+}
+.AddFunds-submitBtn{
+    background-color: black;
+    color: white;
+
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+
+    margin: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+}
+
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: grey;
+    opacity: 1; /* Firefox */
+    font-size: 15px;
+  }

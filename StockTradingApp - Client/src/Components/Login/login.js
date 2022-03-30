@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import auth from '../../Helper/auth'
-
+import './login.css'
 
 
 class Login extends Component {
@@ -81,42 +80,39 @@ class Login extends Component {
   
     render() {
 
-        if(!this.state.authenticated){
-
-            return (
-                <div className="login">
-                        
-                        <div class="vertical-container">
-
-                            <form id='signin-form' onSubmit={this.handleSubmit}>
-
-                                <h2>Log in</h2>
-                                
-                                <input type="text" placeholder="Username" name='username' onChange={this.myChangeHandler}></input>
-
-                                <br />
-                                
-                                <input type="password" placeholder="Password" name='password' onChange={this.myChangeHandler}></input>
-
-                                <br />
-                                
-                                <button type="submit" >Sign In</button>
-                            </form>
-
-                            <div>
-                                {this.state.err}
-                            </div>
-
-                        </div>
-                </div>
-            );
-        }
 
         return (
-            <div>Successfully logged in </div>
-        )
 
+            <form className="Login" onSubmit={this.handleSubmit}>
+
+                <h2 className="Login-header">Log in</h2>
+                
+                <div className="Login-container">
+                    <label className="Login-label">Email</label>
+                    <input className="Login-input" type="email" placeholder="Enter your email" name='username' onChange={this.myChangeHandler}></input>
+                </div>
+
+                <div className="Login-container">
+                    <label className="Login-label">Password</label>
+                    <input className="Login-input" type="password" placeholder="Enter your password" name='password' onChange={this.myChangeHandler}></input>
+                </div>
+                
+                <div className="Login-container">
+                    <button type="submit" className="Login-submitBtn">Sign In</button>
+                </div>
+
+
+                <div>
+                    {this.state.err}
+                </div>
+
+
+            </form>
+
+        );
     }
-  }
+
+}
+
   
   export default Login;

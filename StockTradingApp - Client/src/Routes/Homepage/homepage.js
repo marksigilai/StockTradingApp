@@ -1,40 +1,32 @@
 import React, { Component } from 'react';
-import axios from 'axios'
-      
+import Quote from '../../Components/Quote/quote.js'
+import Portfolio from '../../Components/Portfolio/portfolio'
+import transaction from '../../Helper/transaction.js';
+import './homepage.css';
+
+ 
 
 
 class Homepage extends Component {
 
-    // fetching the GET route from the Express server which matches the GET route from server.js
-    callBackendAPI = async () => {
-      axios.get('index').then(res => {
-          console.log("Hiiiii");
-          if (res.status !== 200) {
-              throw Error(res.message) 
-          }
-          return res;
-      });
-    };
+
+    componentDidMount(){
+
+      transaction.getUserInfo("userid").then((res) => {
+        console.log(res)
+      })
+
+    }
   
   
     render() {
       return (
-        <div className="homepage">
+        <div className="Homepage">
 
-          <>Buy any stock that the user wants</>
-          
+          <Quote />
 
-          QUOTE
-
-          BUY
-
-          COMMIT_BUY
-
-          SET_BUY_AMOUNT
-
-          SET_BUY_TRIGGER
-
-
+          <Portfolio /> 
+            
         </div>
       );
     }

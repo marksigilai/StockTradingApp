@@ -1,0 +1,25 @@
+.Landing {
+    text-align: center;
+    padding: 5rem;
+}
+
+
+.Landing-container {
+
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.Landing-btn {
+    padding:  0.2rem 1rem;
+    margin: 0.5rem;
+    background-color: white;
+    border: none;
+    outline: none;
+    font-weight: bold;
+}
+

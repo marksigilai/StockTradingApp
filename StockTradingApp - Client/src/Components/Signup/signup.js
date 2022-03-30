@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import auth from '../../Helper/auth'
+import './signup.css'
 
 class Signup extends Component {
 
@@ -75,48 +76,46 @@ class Signup extends Component {
     }
   
     render() {
-        if(!this.state.authenticated){
 
-            return (
 
-                <form onSubmit={this.handleSubmit}>
-                    <h1>Sign up </h1>
-                    
-                    <label htmlFor="defaultFormRegisterNameEx" className="grey-text">Your name </label>
-                    
-                    <input name="username" type="text" id="defaultFormRegisterNameEx" className="form-control" onChange={this.myChangeHandler}/>
-                    <br />
-                    
-                    <label htmlFor="defaultFormRegisterEmailEx" className="grey-text">Your email</label>
-                    
-                    <input name="email1" type="email" id="defaultFormRegisterEmailEx" className="form-control" onChange={this.myChangeHandler}/>
-                    <br />
-                    
-                    <label htmlFor="defaultFormRegisterConfirmEx" className="grey-text">Confirm your email</label>
-                    
-                    <input name="email2" type="email" id="defaultFormRegisterConfirmEx" className="form-control" onChange={this.myChangeHandler}/>
-                    <br />
+        return (
 
-                    <label htmlFor="defaultFormRegisterPasswordEx" className="grey-text"> Your password </label>
-                    
-                    <input name="password" type="password" id="defaultFormRegisterPasswordEx" className="form-control" onChange={this.myChangeHandler}/>
+            <form className="Signup" onSubmit={this.handleSubmit}>
+                <h2 className="Signup-header">Sign up</h2>
+                
+                <div className="Signup-container">
+                    <label className='Signup-label' for="username">Username</label>
+                    <input name="username" placeholder="Enter your username"  type="text" className="Signup-input" onChange={this.myChangeHandler}/>
+                </div>
+                
+                
+                <div className="Signup-container">
+                    <label className='Signup-label' for="signup">Email</label>
+                    <input name="email1" placeholder="Enter your email"  type="email" className="Signup-input" onChange={this.myChangeHandler}/>
+                </div>
+                
+                
+                <div className="Signup-container">
+                    <label className='Signup-label' for="username">Confirm Email</label>
+                    <input name="email2" placeholder="Confirm your email"  type="email" className="Signup-input" onChange={this.myChangeHandler}/>
+                </div>
+                
 
-                    <div className="text-center mt-4">
-                        <button color="unique" type="submit">Register</button>
-                    </div>
+                <div className="Signup-container">
+                    <label className='Signup-label' for="username">Password</label>
+                    <input name="password" placeholder="Enter your password" type="password" className="Signup-input" onChange={this.myChangeHandler}/>
+                </div>
 
-                    <div> {this.state.err} </div>
-                </form>
 
-            );
-        }
-        else{
-            return(
+                <div className="Signup-container">
+                    <button className="Signup-submitBtn" type="submit">Register</button>
+                </div>
 
-                <div>Signed up successfully</div>
+                <div> {this.state.err} </div>
+            </form>
 
-            );
-        }
+        );
+        
     }
   }
   
