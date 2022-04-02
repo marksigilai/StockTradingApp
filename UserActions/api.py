@@ -32,7 +32,7 @@ def get_user_stocks():
     except:
         stock_name = ''
     
-    result = accounts.get_user_stocks(user_id, stock_name)
+    result = accounts.get_user_stocks(user_id)
     return result
 
 #Generic functions
@@ -40,7 +40,7 @@ def get_user_stocks():
 def add_funds_to_account():
     query_params = request.args
     user_id = query_params.get("id")
-    amount = query_params.get("amount")
+    amount = float(query_params.get("amount"))
 
     #update user account with added money
     result = accounts.add_funds(user_id, amount)
@@ -61,7 +61,7 @@ def buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
-    amount = query_params.get("amount")
+    amount = float(query_params.get("amount"))
 
     result = buy.start_buy(user_id, stock_name, amount)
     return result
@@ -88,7 +88,7 @@ def sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
-    amount = query_params.get("amount")
+    amount = float(query_params.get("amount"))
 
     result = sell.start_sell(user_id, stock_name, amount)
     return result
@@ -115,40 +115,44 @@ def set_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
-    amount = query_params.get("amount")
+    amount = float(query_params.get("amount"))
 
     #query for user cash amount
     #if sufficient:
     #   create a log of trans
     #   create reserve account holding allocated funds?
     #   update db with decreased cash amount, trigger amount
+    result = setbuy.set_buy_amount(user_id, stock_name, amount)
 
-    return "TODO: create buy amount"
+    return result
 
 @app.route('/SET_BUY_TRIGGER', methods=['POST'])
 def set_buy_stock_trigger():
     query_params = request.args
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
-    amount = query_params.get("amount")
+    amount = float(query_params.get("amount"))
 
     #query for quoteserver stock price
     #create and commit a buy action if the stock price <= trigger amount
+    result = setbuy.set_buy_trigger(user_id, stock_name, amount)
 
-    return "TODO: set buy trigger"
+    return result
 
 @app.route('/CANCEL_SET_BUY', methods=['POST'])
 def cancel_set_buy_stock():
     query_params = request.args
     user_id = query_params.get("id")
+    stock_name = query_params.get("stock")
 
     #query transactions (or user account?) for a set buy amount
     #if exists,
     #   account is reset to the value before the set buy
     #   remove the buy trigger
     #   create a transaction log
+    result = setbuy.cancel_set_buy(user_id, stock_name)
 
-    return "TODO: cancel set buy"
+    return result
 
 #Set Sell
 @app.route('/SET_SELL_AMOUNT', methods=['POST'])
@@ -156,40 +160,44 @@ def set_sell_stock_amount():
     query_params = request.args
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
-    amount = query_params.get("amount")
+    amount = float(query_params.get("amount"))
 
     #query for user stock amount
     #if sufficient:
     #   create a log of trans
     #   create reserve account holding allocated stocks?
     #   update db with decreased stock amount, trigger amount
+    result = setsell.set_sell_amount(user_id, stock_name, amount)
 
-    return "TODO: create sell amount"
+    return result
 
 @app.route('/SET_SELL_TRIGGER', methods=['POST'])
 def set_sell_stock_trigger():
     query_params = request.args
     user_id = query_params.get("id")
     stock_name = query_params.get("stock")
-    amount = query_params.get("amount")
+    amount = float(query_params.get("amount"))
 
     #query for quoteserver stock price
     #create and commit a sell action if the stock price >= trigger amount
+    result = setsell.set_sell_trigger(user_id, stock_name, amount)
 
-    return "TODO: set sell trigger"
+    return result
 
 @app.route('/CANCEL_SET_SELL', methods=['POST'])
 def cancel_set_sell_stock():
     query_params = request.args
     user_id = query_params.get("id")
+    stock_name = query_params.get("stock")
 
     #query transactions (or user account?) for a set sell amount
     #if exists,
     #   account is reset to the value before the set sell
     #   remove the sell trigger
     #   create a transaction log
+    result = setsell.cancel_set_sell(user_id, stock_name)
 
-    return "TODO: cancel set sell"
+    return result
 
 #Logs
 @app.route('/USER_DUMPLOG', methods=['POST'])

@@ -17,12 +17,12 @@ Prerequisites:
 """
 
 def start_buy(user_id, stock, amount):
-    print("start buy")
+    # print("start buy")
     amt_result = accounts_db.find_one(
         {'id': user_id},
         projection={'_id': False, 'amount': True}
     )
-    print(amt_result)
+    # print(amt_result)
     if not amt_result:
         return "Account does not exist"
 
@@ -63,7 +63,7 @@ def commit_buy(user_id):
 
     if not log_result:
         return "No recent buy action for user {}".format(user_id)
-    print(log_result)
+    # print(log_result)
     action = log_result['action']
     if action != 'BUY': 
         return "Latest transaction was not buy (cancel or commit)"
@@ -75,7 +75,7 @@ def commit_buy(user_id):
         {'$inc': {'stocks.$[stockName].amount': stock['amount']}},
         array_filters=[{'stockName.name': stock['name']}]
     )
-    print(update_accounts_result)
+    # print(update_accounts_result)
     if stock['name'] not in [d['name'] for d in update_accounts_result['stocks']]:
        #need to insert stock because this is user's first buy of this stock
        print("first buy of stock "+stock['name'])
