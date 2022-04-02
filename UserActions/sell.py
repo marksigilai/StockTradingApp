@@ -79,7 +79,7 @@ def commit_sell(user_id):
         {'$inc': {'stocks.$[stockName].amount': -1*stock['amount']}},
         array_filters=[{'stockName.name': stock['name']}]
     )
-    print(update_accounts_result)
+    # print(update_accounts_result)
     add_funds_res = accounts.add_funds(user_id, amount)
 
     log_result1 = log_db.insert_one(

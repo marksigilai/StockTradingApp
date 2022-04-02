@@ -11,17 +11,11 @@ def find_user_account(user_id):
     )
     return result
 
-def get_user_stocks(user_id, stock=''):
-    if stock:
-        result = config.collection.accounts.find_one(
-            {'$and': [{'id': user_id}, {'stock.$.name': stock}]},
-            projection={'stocks': True, '_id': False}
-        )
-    else:
-        result = config.collection.accounts.find_one(
-            {'id': user_id},
-            projection={'stocks': True, '_id': False}
-        )
+def get_user_stocks(user_id):
+    result = config.collection.accounts.find_one(
+        {'id': user_id},
+        projection={'stocks': True, '_id': False}
+    )
     return result
 
 def add_funds(user_id, amount):
@@ -31,6 +25,14 @@ def add_funds(user_id, amount):
         upsert=True,
         return_document=ReturnDocument.AFTER
     )
+    if 'stocks' not in result.keys():
+        #creating account for the first time, must add stocks: []
+        result = config.collection.accounts.find_one_and_update(
+            {'id': user_id},
+            {'$set': {'stocks': []}},
+            upsert=True,
+            return_document=ReturnDocument.AFTER
+        )
     return result
 
 def remove_funds(user_id, amount):
@@ -44,4 +46,4 @@ def remove_funds(user_id, amount):
     )
     return result
 
-add_funds('abcdef', 100)
+# add_funds('xyz', 100)
