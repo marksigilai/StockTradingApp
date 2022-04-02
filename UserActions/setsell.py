@@ -93,7 +93,7 @@ def set_sell_trigger(user_id, stock, trigger_amount):
         {'id': user_id, 
         'action': 'SET_SELL_TRIGGER',
         'stock': {'name': stock, 'amount': 0},
-        'trigger_amount': trigger_amount,
+        'amount': trigger_amount,
         'timestamp': timestamp
         }
     )
@@ -126,7 +126,7 @@ def cancel_set_sell(user_id, stock):
         {'id': user_id, 
         'action': 'CANCEL_SET_BUY',
         'stock': {'name': stock, 'amount': set_amount},
-        'trigger_amount': trigger_amount,
+        'amount': trigger_amount,
         'timestamp': timestamp
         }
     )
@@ -135,4 +135,4 @@ def cancel_set_sell(user_id, stock):
 
 # set_sell_amount('xyz', 'stock1', 1)
 # set_sell_trigger('xyz', 'stock1', 2)
-cancel_set_sell('xyz', 'stock1')
+# cancel_set_sell('xyz', 'stock1')

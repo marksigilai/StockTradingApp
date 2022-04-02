@@ -119,6 +119,6 @@ def cancel_set_buy(user_id, stock):
 
     return log_result
 
-set_buy_amount('xyz', 'stock1', 10)
 # set_buy_amount('xyz', 'stock1', 10)
-set_buy_trigger('xyz', 'stock1', 3)
+# set_buy_amount('xyz', 'stock1', 10)
+# set_buy_trigger('xyz', 'stock1', 3)
