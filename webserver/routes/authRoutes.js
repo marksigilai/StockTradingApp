@@ -2,8 +2,17 @@ const {Router, response} = require('express');
 const router = Router();
 const User = require('../models/User')
 const jwt = require('jsonwebtoken');
+var os = require ("os")
 
 const {requireAuth} = require('../middleware/authMiddleware')
+
+
+
+//
+router.get('/', (req, res) => {
+    res.send(os.hostname()); 
+});
+
 
 //login
 router.get('/login', (req, res) => {
@@ -11,6 +20,7 @@ router.get('/login', (req, res) => {
     res.send({ express: 'Getting the log in page' }); 
 
 });
+
 //login post credentials
 router.post('/login', async (req, res) => {
     const {username, password} = req.body;
@@ -21,6 +31,7 @@ router.post('/login', async (req, res) => {
         const user = await User.login(username, password);
         const token = createToken(user._id);
         console.log(token)
+        
         //max age of 3 days
         res.cookie('jwt', token, {httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60})
         res.status(201).json({user: user._id, token:token})

@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  # transactionserver:
+  #   image: stocktradingapp/useractions
+  #   container_name: transaction_server
+  #   build:
+  #     context: ./UserActions
+  #   ports:
+  #     - 5000:5000
+  #   restart: on-failure
+
+  webserver:
+    image: stocktradingapp/webserver
+    build:
+      context: ./WebServer
+    # depends_on:
+    #   - transactionserver
+    restart: on-failure
+
+
+  reactclient:
+    image: stocktradingapp/reactclient
+    container_name: react_client
+    build:
+      context: ./ReactClient
+    depends_on:
+      - webserver
+    ports:
+      - 3000:3000
+    restart: on-failure
+
+  loadbalancer:
+    image: lb
+    container_name: load_balancer
+    build:
+      context: ./LoadBalancer
+    depends_on:
+      # - transaction-server
+      - webserver
+      - reactclient
+    ports: 
+      - 4000:4000
