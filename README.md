@@ -1,7 +1,7 @@
 # StockTradingApp
 A simple scalable stock trading web app
 
-TO RUN THE FILE USE:
+## To run this file
 
 docker-compose up --scale webserver=3 --build
 
