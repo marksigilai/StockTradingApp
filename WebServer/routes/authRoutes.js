@@ -2,9 +2,16 @@ const {Router, response} = require('express');
 const router = Router();
 const User = require('../models/User')
 const jwt = require('jsonwebtoken');
+var os = require('os')
 
 const {requireAuth} = require('../middleware/authMiddleware')
 
+
+//
+router.get('/', (req, res) => {
+    res.send(os.hostname()); 
+
+});
 //login
 router.get('/login', (req, res) => {
     console.log('login page request');
