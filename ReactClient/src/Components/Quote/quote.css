@@ -1,0 +1,40 @@
+.Quote {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+
+.Quote-form {
+
+    text-align: center;
+
+}
+
+.Quote-header {
+    font-size: 40px;
+
+}
+
+.Quote-input {
+
+    display: block;
+    margin: auto;
+    padding: 0.7rem 2rem;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 15rem;
+}
+
+.Quote-btn {
+    padding: 0.7rem 1rem;
+    margin: 30px;
+    background-color: black;
+    border-radius: 5px;
+    border: 1px solid white;
+    outline: none;
+    color: white;
+    width: 10rem;
+    font-weight: bold;
+    font-size: 14px;
+}
+

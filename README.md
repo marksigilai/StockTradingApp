@@ -1,6 +1,15 @@
 # StockTradingApp
 A simple scalable stock trading web app
 
+## To run this file
+
+docker-compose up --scale webserver=3 --build
+
+visit http://localhost:3000/ for the reactclient
+
+visit http://localhost:4000/ for the webserver
+
+
 ## Required Functionality
 Following [this link](https://www.ece.uvic.ca/~seng468/ProjectWebSite/Commands.html), the below functionality is required to be implemented.
 * ADD \[userid, amount\] 

@@ -1,0 +1,113 @@
+.Order{
+
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 100px;
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px;
+
+}
+
+.Order-header{
+    font-size: 40px;
+    margin: 10px;
+}
+.Order-subheading{
+    font-size: 20px;
+    margin: 5px;
+    padding: 5px;
+    color: grey;
+}
+
+.Order-container{
+
+    text-align: left;
+    margin: 10px;
+    width: 18rem;
+    display: block;
+    
+}
+
+.Order-dropdown{
+
+    text-align: left;
+    margin-top: 10px;
+    width: 11rem;
+    display: inline-block;
+    padding: 15px;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    
+}
+
+.Order-label{
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(53, 53, 53);
+    display: block;
+    text-align: left;
+}
+.Order-input{
+
+    border: none;
+    border-radius: 5px;
+    color: black;
+    width: 80%;
+    padding: 15px;
+    margin-top: 5px;
+}
+
+.Order-btnContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.Order-submitBtn{
+    background-color: black;
+    color: white;
+
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+
+    margin: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+
+
+
+}
+
+.Order-cancelBtn{
+    background-color: white;
+    color: black;
+
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid black;
+
+    margin: 20px;
+    padding: 10px;
+
+    font-weight: bold;
+    font-size: 14px;
+
+
+}
+
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: grey;
+    opacity: 1; /* Firefox */
+    font-size: 15px;
+  }

@@ -1,0 +1,17 @@
+.Navbar{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;    
+    justify-content: center;
+}
+
+.Navbar-link{
+
+    text-decoration: none;
+    color: black;
+    
+    padding:  0.2rem 1rem;
+    margin: 2rem;
+    font-weight: bold;
+}
