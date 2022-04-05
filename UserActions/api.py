@@ -225,4 +225,4 @@ def display_summary_endpoint():
     result = logs.display_summary(user_id)
     return result
 
-app.run()
+app.run(host="0.0.0.0", port=5000)

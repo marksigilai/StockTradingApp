@@ -1,5 +1,6 @@
 import sys
 import requests
+import time
 
 """
 Use: single command line arg must be the filename to parse
@@ -64,4 +65,5 @@ for line in lines.split('\n'):
         print("invalid action")
 
     commands.append(cmd)
+    time.sleep(5)
     req = requests.post("http://localhost:5000/{}".format(action), json=cmd)
