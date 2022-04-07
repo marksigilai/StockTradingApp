@@ -10,6 +10,16 @@ services:
   #     - 5000:5000
   #   restart: on-failure
 
+  trigger:
+    image: stocktradingapp/triggers
+    container_name: triggers
+    build:
+      context: ./UserActions
+      dockerfile: Dockerfile_Triggers
+    ports:
+      - 6000:6000
+    restart: on-failure
+
   webserver:
     image: stocktradingapp/webserver
     build:
