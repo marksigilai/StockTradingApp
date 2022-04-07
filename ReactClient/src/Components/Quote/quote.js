@@ -12,7 +12,7 @@ class Quote extends Component {
             stockname: "",
             stockprice: "",
             error: "",
-            searchSuccessful: true
+            searchSuccessful: false
         }
     }
 
@@ -31,7 +31,11 @@ class Quote extends Component {
 
         event.preventDefault();
 
-        transaction.quote(this.state.userid, this.state.stock).then((res) => {
+        if(!this.state.stockname){
+            return
+        }
+
+        transaction.quote(localStorage.getItem("userid"), this.state.stockname.toUpperCase()).then((res) => {
             console.log(res.data);
 
             if(res.data.name === "Error" || res.error){
@@ -43,8 +47,8 @@ class Quote extends Component {
             //get stock name, price
             else{
                 this.setState({
-                    stockname: res.data.stockname,
-                    stockprice: res.data.stockprice,
+                    stock: res.data.stock,
+                    stockprice: res.data.quote,
                     searchSuccessful : true
                 })
 
@@ -58,13 +62,14 @@ class Quote extends Component {
     render() {
 
       return (
+          
         <div className="Quote">
 
             <form className="Quote-form" onSubmit={this.handleSubmit}>
 
                 <h1 className="Quote-header">Search for a stock</h1>
 
-                <input className="Quote-input" name="stock" type="text" onChange={this.myChangeHandler}/>
+                <input className="Quote-input" name="stockname" type="text" onChange={this.myChangeHandler} maxLength="6"/>
 
                 <button className="Quote-btn" type="submit">Search</button>
 
@@ -72,7 +77,7 @@ class Quote extends Component {
 
             {this.state.searchSuccessful && 
 
-                <Order ordertype="Buy" stockname={this.state.stockname} value={this.state.stockprice}/>
+                <Order ordertype="Buy" stockname={this.state.stock} stockprice={this.state.stockprice}/>
 
             }
 

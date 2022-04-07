@@ -1,9 +1,8 @@
 import network
 import config
-from pymongo import ReturnDocument
+
 import xml_builder
 
-import sys
 
 def user_dumplog(user_id, outputfile):
   result = config.collection.logs.find(
@@ -35,9 +34,12 @@ def display_summary(user_id):
   xml_t = xml_builder.convert(triggers_result)
   xml_l = xml_builder.convert(logs_result)
 
+
+
+
   xml_result = xml_a + '\n' + xml_t + '\n' + xml_l
 
-  return xml_result
+  return xml_l
 
 # user_dumplog('xyz', 'testlog.json')
 

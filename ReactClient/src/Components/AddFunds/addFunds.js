@@ -10,8 +10,7 @@ class AddFunds extends Component {
         super();
     
         this.state = {
-            //will change this to props to the add component
-            userid:"mark sigilai",
+
         }
     
       }
@@ -29,10 +28,18 @@ class AddFunds extends Component {
     handleSubmit = (event) => {
 
         event.preventDefault();
+        document.getElementById('signin-form').reset()
 
-        transaction.add(this.state.userid, this.state.amount).then((res) => {
-            console.log(res);
-            this.setState({message: JSON.stringify(res.data.message)})
+        //verification of amount
+        if(!this.state.amount){
+          return
+        }
+
+        transaction.add(localStorage.getItem('userid'), this.state.amount).then((res) => {
+
+            //call super function to update balance
+            this.props.updateBalance(res.data.balance)
+
         });
 
     }
@@ -48,9 +55,6 @@ class AddFunds extends Component {
             <input className="AddFunds-input" name='amount' type="number" min="0" step="0.01" onChange={this.myChangeHandler}></input>
             <button className="AddFunds-submitBtn" type="submit" >Add</button>
 
-            <div className="AddFunds-error">
-                {this.state.message}
-            </div>
         </form>
 
       );

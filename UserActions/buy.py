@@ -24,11 +24,11 @@ def start_buy(user_id, stock, amount):
     )
     # print(amt_result)
     if not amt_result:
-        return "Account does not exist"
+        return {"err" : "Account does not exist"}
 
     existing_amount = float(amt_result['amount'])
     if existing_amount < amount:
-        return "Cannot buy {} of stock {}".format(amount, stock)
+        return {"err": "Cannot buy {} of stock {}".format(amount, stock)}
 
     #if sufficient, place buy in trans history to wait for commit buy
     num_stocks = quotes.num_of_stocks(user_id, stock, amount)
@@ -41,7 +41,7 @@ def start_buy(user_id, stock, amount):
         'timestamp': timestamp
         }
     )
-    return log_result
+    return {'status':'passed'}
 
 
 def commit_buy(user_id):

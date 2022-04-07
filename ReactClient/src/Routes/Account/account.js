@@ -11,9 +11,10 @@ class Account extends Component {
       return (
         <div className="Account">
 
+          <Funds userid = {this.props.userid}/>         
+
           <Summary userid = {this.props.userid}/>
 
-          <Funds/>
 
         </div>
       );

@@ -57,11 +57,13 @@ class App extends Component {
   }
 
 
-  setToken = (token) =>{
+  //set the token and the userid for this session
+  setUserInfo = (userid, token) =>{
 
     console.log("we are setting the token in app..")
 
     this.setState({
+      userid: userid,
       token: token, 
       authenticated: true
     })
@@ -73,6 +75,7 @@ class App extends Component {
   logOut = () => {
 
     this.setState({
+      userid: "",
       token: "", 
       authenticated: false
     })
@@ -88,7 +91,7 @@ class App extends Component {
 
         return (
 
-            <Landing setToken={ this.setToken } />
+            <Landing setUserInfo={ this.setUserInfo } />
 
         )
     }

@@ -36,7 +36,7 @@ def add_funds(user_id, amount):
             upsert=True,
             return_document=ReturnDocument.AFTER
         )
-    print(result)
+    print("The result is --> ", result)
     timestamp = time.time()
     log_result = log_db.insert_one({
         'id': user_id,
@@ -44,7 +44,7 @@ def add_funds(user_id, amount):
         'amount': amount,
         'timestamp': timestamp
     })
-    return log_result
+    return result
 
 def remove_funds(user_id, amount):
     if amount > 0:
@@ -62,6 +62,6 @@ def remove_funds(user_id, amount):
         'amount': amount,
         'timestamp': timestamp
     })
-    return log_result
+    return result
 
 # add_funds('xyz', 100)

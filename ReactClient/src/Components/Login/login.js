@@ -56,7 +56,7 @@ class Login extends Component {
                     err:""
                 });
 
-                this.props.setToken(message.data.token)
+                this.props.setUserInfo(message.data.user, message.data.token)
             }
             else{
                 this.setState({

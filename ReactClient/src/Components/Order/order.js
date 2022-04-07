@@ -20,6 +20,11 @@ class Order extends Component {
 
     handleChange = (event) => {
 
+        let nam = event.target.name;
+        let val = event.target.value;
+        this.setState({[nam]: val});
+
+
         if(event.target.value === "triggered"){
             this.setState({
                 triggered: true
@@ -37,23 +42,45 @@ class Order extends Component {
     makeOrder = (event) => {
 
         event.preventDefault()
+        console.log("making an order")
         console.log(event.target.name)
+
+        //do not submit form if no amount has been input
+        if(!this.state.amount){
+            return
+        }
         
 
-        if(event.target.name === "Buy" || this.props.ordertype === "Sell"){
-
-            this.setState({
-                showConfirmationButtons: true
-            })
+        if(event.target.name === "Buy" || this.props.ordertype === "Sell"){  
 
             if(!this.state.triggered){
-                event.target.name === "Buy" ? transaction.buy() : transaction.sell()
+                if(event.target.name === "Buy"){
+                    transaction.buy(localStorage.getItem("userid"), this.props.stockname, this.state.amount).then((response) => {
+                        //allow commit buy only after completing buy successfully
+                        if(response.data.status === "passed"){
+                            this.setState({
+                                showConfirmationButtons: true
+                            })
+                        }
+                    })
+
+                } else{
+                    
+                    transaction.sell(localStorage.getItem("userid"), this.props.stockname, this.state.amount).then((response) => {
+                        //allow commit sell only after completing buy successfully
+                        if(response.data.status === "passed"){
+                            this.setState({
+                                showConfirmationButtons: true
+                            })
+                        }
+                    })
+                }
             }
             else{
-                event.target.name === "Buy" ? transaction.setBuy() : transaction.setSell()
+                event.target.name === "Buy" ? transaction.setBuy(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggered) : transaction.setSell(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggered)
                 
             }
-            
+            return
         }
 
         if(event.target.name === "Commit Buy" || event.target.name === "Commit Sell"){
@@ -63,7 +90,7 @@ class Order extends Component {
             })
 
             event.target.name === "Commit Buy" ? transaction.commitBuy() : transaction.commitSell()
-           
+            return
         }
 
         if(event.target.name === "Cancel Buy" || event.target.name === "Cancel Sell"){
@@ -78,7 +105,7 @@ class Order extends Component {
             else if (!this.state.triggered){
                 event.target.name === "Cancel Buy" ? transaction.cancelBuy() : transaction.cancelSell()
             }
-            
+            return
         }
 
 
@@ -92,13 +119,13 @@ class Order extends Component {
         let cancelButtonName = "Cancel " + this.props.ordertype
         let commitButtonName = "Commit " + this.props.ordertype
 
-        button = <button className="Order-submitBtn" name = {this.props.ordertype} type = "submit" onClick={this.makeOrder}>  {this.state.triggered ? "Set" : ""} {this.props.ordertype} </button>
+        button = <button className="Order-submitBtn" name = {this.props.ordertype} onClick={this.makeOrder} type = "button">  {this.state.triggered ? "Set" : ""} {this.props.ordertype} </button>
 
         confirmButtons = <div className='btnContainer'>
                             {!this.state.triggered && 
-                                <button className="Order-submitBtn" name = {commitButtonName} type="submit" onClick={this.makeOrder}>Commit {this.props.ordertype}</button>
+                                <button className="Order-submitBtn" name = {commitButtonName} type="button" onClick={this.makeOrder}>Commit {this.props.ordertype}</button>
                             }
-                            <button className="Order-cancelBtn" name = {cancelButtonName} type="submit" onClick={this.makeOrder}>Cancel {this.state.triggered ? "Set" : ""} {this.props.ordertype}</button>
+                            <button className="Order-cancelBtn" name = {cancelButtonName} type="button" onClick={this.makeOrder}>Cancel {this.state.triggered ? "Set" : ""} {this.props.ordertype}</button>
                         </div>
 
 
@@ -107,11 +134,13 @@ class Order extends Component {
 
                 <h2 className="Order-header">Place an order.</h2>
 
-                <h3 className="Order-subheading">{this.props.ordertype}</h3>
+                <div className="Order-descriptioncontainer">
 
-                <h3 className="Order-subheading">{this.props.stockName}</h3>
+                    <h3 className="Order-stockname">{this.props.stockname}</h3>
 
-                <h3 className="Order-subheading">{this.props.stockCurrentPrice}</h3>
+                    <h3 className="Order-stockprice">{this.props.stockprice} $</h3>
+
+                </div>
 
                 <div className="Order-container">
                     <label className="Order-label">{this.props.ordertype} type </label>
@@ -122,7 +151,7 @@ class Order extends Component {
                 </div>
 
 
-                <form className="" onSubmit={this.makeOrder}>
+                <form className="">
 
                     <div className="Order-container">
                         <label className="Order-label">{this.props.ordertype} amount </label>

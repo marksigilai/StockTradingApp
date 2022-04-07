@@ -17,16 +17,16 @@ app.config["DEBUG"] = True
 #Database queries
 @app.route('/useraccount', methods=['POST'])
 def get_user():
-    query_params = request.args
-    user_id = query_params.get("id")
+    query_params = request.get_json()
+    user_id = query_params["id"]
 
     result = accounts.find_user_account(user_id)
     return result
 
 @app.route('/userstocks', methods=['POST'])
 def get_user_stocks():
-    query_params = request.args
-    user_id = query_params.get("id")
+    query_params = request.get_json()
+    user_id = query_params["id"]
     try:
         stock_name = query_params.get("stock")
     except:
@@ -38,46 +38,59 @@ def get_user_stocks():
 #Generic functions
 @app.route('/ADD', methods=['POST'])
 def add_funds_to_account():
-    query_params = request.args
-    user_id = query_params.get("id")
-    amount = float(query_params.get("amount"))
+    query_params = request.get_json()
+
+    user_id = query_params["id"]
+    amount = float(query_params["amount"])
 
     #update user account with added money
     result = accounts.add_funds(user_id, amount)
-    return result
+
+    response = {
+        "userid": result["id"],
+        "balance": result["amount"]
+    }
+
+    return jsonify(response)
 
 @app.route('/QUOTE', methods=["POST"])
 def quote_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
+    query_params = request.get_json()
+    print(query_params)
+
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
+
     
     result = quotes.get_quote(user_id, stock_name)
-    return result
+    print("The stock quote result is --> ", result)
+
+    return jsonify(result)
 
 #Buy
 @app.route('/BUY', methods=['POST'])
 def buy_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
-    amount = float(query_params.get("amount"))
+    query_params = request.get_json()
+
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
+    amount = float(query_params["amount"])
 
     result = buy.start_buy(user_id, stock_name, amount)
-    return result
+    return jsonify(result)
 
 @app.route('/COMMIT_BUY', methods=['POST'])
 def commit_buy_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
+    query_params = request.get_json()
+    user_id = query_params["id"]
     
     result = buy.commit_buy(user_id)
     return result
 
 @app.route('/CANCEL_BUY', methods=['POST'])
 def cancel_buy_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
+    query_params = request.get_json()
+    user_id = query_params["id"]
     
     result = buy.cancel_buy(user_id)
     return result
@@ -85,26 +98,26 @@ def cancel_buy_stock():
 #Sell
 @app.route('/SELL', methods=['POST'])
 def sell_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
-    amount = float(query_params.get("amount"))
+    query_params = request.get_json()
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
+    amount = float(query_params["amount"])
 
     result = sell.start_sell(user_id, stock_name, amount)
     return result
 
 @app.route('/COMMIT_SELL', methods=['POST'])
 def commit_sell_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
+    query_params = request.get_json()
+    user_id = query_params["id"]
     
     result = sell.commit_sell(user_id)
     return result
 
 @app.route('/CANCEL_SELL', methods=['POST'])
 def cancel_sell_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
+    query_params = request.get_json()
+    user_id = query_params["id"]
 
     result = sell.cancel_sell(user_id)
     return result
@@ -112,10 +125,10 @@ def cancel_sell_stock():
 #Set Buy
 @app.route('/SET_BUY_AMOUNT', methods=['POST'])
 def set_buy_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
-    amount = float(query_params.get("amount"))
+    query_params = request.get_json()
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
+    amount = float(query_params["amount"])
 
     #query for user cash amount
     #if sufficient:
@@ -128,10 +141,10 @@ def set_buy_stock():
 
 @app.route('/SET_BUY_TRIGGER', methods=['POST'])
 def set_buy_stock_trigger():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
-    amount = float(query_params.get("amount"))
+    query_params = request.get_json()
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
+    amount = float(query_params["amount"])
 
     #query for quoteserver stock price
     #create and commit a buy action if the stock price <= trigger amount
@@ -141,9 +154,9 @@ def set_buy_stock_trigger():
 
 @app.route('/CANCEL_SET_BUY', methods=['POST'])
 def cancel_set_buy_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
+    query_params = request.get_json()
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
 
     #query transactions (or user account?) for a set buy amount
     #if exists,
@@ -157,10 +170,10 @@ def cancel_set_buy_stock():
 #Set Sell
 @app.route('/SET_SELL_AMOUNT', methods=['POST'])
 def set_sell_stock_amount():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
-    amount = float(query_params.get("amount"))
+    query_params = request.get_json()
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
+    amount = float(query_params["amount"])
 
     #query for user stock amount
     #if sufficient:
@@ -173,10 +186,10 @@ def set_sell_stock_amount():
 
 @app.route('/SET_SELL_TRIGGER', methods=['POST'])
 def set_sell_stock_trigger():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
-    amount = float(query_params.get("amount"))
+    query_params = request.get_json()
+    user_id = query_params["id"]
+    stock_name = query_params["stock"]
+    amount = float(query_params["amount"])
 
     #query for quoteserver stock price
     #create and commit a sell action if the stock price >= trigger amount
@@ -186,9 +199,9 @@ def set_sell_stock_trigger():
 
 @app.route('/CANCEL_SET_SELL', methods=['POST'])
 def cancel_set_sell_stock():
-    query_params = request.args
-    user_id = query_params.get("id")
-    stock_name = query_params.get("stock")
+    query_params = request.get_json()
+    user_id = query_params["id"]
+    stock_name = query_params.get["stock"]
 
     #query transactions (or user account?) for a set sell amount
     #if exists,
@@ -202,8 +215,8 @@ def cancel_set_sell_stock():
 #Logs
 @app.route('/USER_DUMPLOG', methods=['POST'])
 def user_dumplog_endpoint():
-    query_params = request.args
-    user_id = query_params.get('id')
+    query_params = request.get_json()
+    user_id = query_params['id']
     output_file = query_params.get('filename')
 
     result = logs.user_dumplog(user_id, output_file)
@@ -211,7 +224,7 @@ def user_dumplog_endpoint():
 
 @app.route('/DUMPLOG', methods=['POST'])
 def dumplog_endpoint():
-    query_params = request.args
+    query_params = request.get_json()
     output_file = query_params.get('filename')
 
     result = logs.dumplog(output_file)
@@ -219,10 +232,11 @@ def dumplog_endpoint():
 
 @app.route('/DISPLAY_SUMMARY', methods=['POST'])
 def display_summary_endpoint():
-    query_params = request.args
-    user_id = query_params.get("id")
+    query_params = request.get_json()
+    user_id = query_params["id"]
 
     result = logs.display_summary(user_id)
-    return result
+    return jsonify(result)
+
 
 app.run(host="0.0.0.0", port=5000)

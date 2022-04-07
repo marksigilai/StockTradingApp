@@ -9,7 +9,7 @@ def get_quote(user_id, stock):
     #Given a user id, query the accounts database for the account info
     # request = "{} {}".format(user_id, stock)
     # result = network.send_request(request)
-    result = 3
+    result = 3.21
 
     log_result = logs_db.insert_one({
         'id': user_id,
@@ -17,6 +17,11 @@ def get_quote(user_id, stock):
         'quote': result #might want to split this into fields
     })
     # return result.split(',')
+    result = {
+        'userid': user_id,
+        'stock': stock,
+        'quote': result
+    }
     return result
 
 def num_of_stocks(user_id, stock, amount):

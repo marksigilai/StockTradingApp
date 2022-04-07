@@ -41,13 +41,7 @@ class Order extends Component {
         }
     }
   
-    handleBuyOrder = () => {
-        
-    }
 
-    handleSellOrder = () => {
-        
-    }
 
     render() {
 

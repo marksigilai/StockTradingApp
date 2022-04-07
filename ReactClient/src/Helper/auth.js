@@ -13,6 +13,7 @@ class Transactions{
         this.user = "";
 
 
+
         this.login = this.login.bind(this)
         this.setPassword = this.setPassword.bind(this)
         this.logout = this.logout.bind(this)
@@ -47,8 +48,10 @@ class Transactions{
                     this.authenticated = true;
                     this.token = res.data.token;
                     this.user = res.data.user;
+                    console.log("The userid is --> " + res.data.user)
 
                     localStorage.setItem("token", res.data.token);
+                    localStorage.setItem("userid", res.data.user);
 
                     console.log(res);
                     resolve({

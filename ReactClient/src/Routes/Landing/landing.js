@@ -40,11 +40,11 @@ class Landing extends Component{
 
     if (this.state.hasAccount) {
 
-      content = < Login setToken ={ this.props.setToken } />;
+      content = < Login setUserInfo ={ this.props.setUserInfo } />;
     } 
     else {
 
-      content = < Signup setToken ={ this.props.setToken } />;
+      content = < Signup setUserInfo ={ this.props.setUserInfo } />;
 
     }
 

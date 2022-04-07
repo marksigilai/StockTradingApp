@@ -65,7 +65,7 @@ class Transaction{
         return new Promise((resolve, reject) => {
 
             axios.post("add", { userid: userid, amount: amount }).then( res => {
-
+                console.log(res)
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     
             }).catch(err => {
@@ -83,7 +83,7 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("quote", { userid: userid, stockSymbol: stockSymbol }).then( res => {
+            axios.post("quote", { userid: userid, stock: stockSymbol }).then( res => {
 
                 console.log(res.data)
                 resolve({data: res.data})
@@ -102,11 +102,13 @@ class Transaction{
 
     buy = (userid, stockSymbol, amount) => {
 
+        console.log("userid " + userid + " stocksymbol " + stockSymbol  + " amount" + amount)
+
         return new Promise((resolve, reject) => {
 
             axios.post("buy", { userid: userid, stockSymbol: stockSymbol, amount: amount }).then( res => {
             
-                res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
+                res.data.err ? resolve({ error: res.data.err}) : resolve({ data: res.data })
     
             }).catch(err => {
                 console.log(err)
@@ -312,8 +314,9 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("displaysummary", { userId: userId }).then( res => {
+            axios.post("displaysummary", { userid: userId }).then( res => {
             
+                console.log(res)
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     
             }).catch(err => {

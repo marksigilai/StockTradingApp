@@ -35,11 +35,9 @@ router.post('/useraccount', (req, res) => {
 
 //add amount
 router.post('/add', (req, res) => {
-    console.log(req.body);
     const {userid, amount} = req.body;
 
     let url = "http://127.0.0.1:5000/ADD";
-
 
     axios({
         method:'POST',
@@ -50,10 +48,10 @@ router.post('/add', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json(response)
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+        console.log(error)
         res.status(201).json(error)
     })
 
@@ -83,11 +81,9 @@ router.post('/quote', (req, res) => {
         res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json(error)
     })
-
-    console.log('quote requested');
 
 });
 
@@ -95,7 +91,7 @@ router.post('/quote', (req, res) => {
 
 //buy
 router.post('/buy', async (req, res) => {
-    const {userid, stock, amount} = req.body;
+    const {userid, stockSymbol, amount} = req.body;
 
     let url = "http://127.0.0.1:5000/BUY";
 
@@ -104,20 +100,18 @@ router.post('/buy', async (req, res) => {
         url,
         data: {
             id: userid,
-            stock: stock,
+            stock: stockSymbol,
             amount: amount
         }
     })
     .then(function (response) {
-        res.status(201).json(response)
+        console.log(response.data)
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json(error)
     })
-
-
-    console.log(req.body);
 
 });
 
@@ -465,7 +459,7 @@ router.post('/dumplog', (req, res) => {
 
 //display summary
 router.post('/displaysummary', (req, res) => {
-    console.log(req.body);
+
     const {userid} = req.body;
         
     let url = "http://127.0.0.1:5000/DISPLAY_SUMMARY";
@@ -478,14 +472,16 @@ router.post('/displaysummary', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+
+        console.log(JSON.parse(response.data.replace('\\', '')))
+        res.status(201).send(JSON.parse(response.data.replace('\\', '')))
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
-    res.send("display summary")
+
 });
                           
 
