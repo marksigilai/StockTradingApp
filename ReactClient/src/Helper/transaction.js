@@ -45,7 +45,7 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("accountinfo", { userid: userid }).then( res => {
+            axios.post("useraccount", { userid: userid }).then( res => {
 
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
 
@@ -163,7 +163,7 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("sell", { userid: userid, stockSymbol: stockSymbol, amount: amount }).then( res => {
+            axios.post("sell", { userid: userid, stock: stockSymbol, amount: amount }).then( res => {
             
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     
@@ -182,7 +182,7 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("commitsell", { userId: userId }).then( res => {
+            axios.post("commitsell", { userid: userId }).then( res => {
             
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     
@@ -201,7 +201,7 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("cancelsell", { userId: userId }).then( res => {
+            axios.post("cancelsell", { userid: userId }).then( res => {
             
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     
@@ -304,6 +304,25 @@ class Transaction{
                 reject()
             })
             console.log("We have run the cancel set sell function ")
+
+        })
+        
+    }
+
+
+    getStocks = (userid) => {
+        return new Promise((resolve, reject) => {
+
+            axios.post("getstocks", { userid: userid }).then( res => {
+            
+                console.log(res.data)
+                res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
+    
+            }).catch(err => {
+                console.log(err)
+                reject()
+            })
+            console.log("We have run the get stocks function ")
 
         })
         

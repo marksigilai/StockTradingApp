@@ -24,16 +24,16 @@ def start_sell(user_id, stock, amount):
         if stock == s['name']:
             existing_stock = s
     if not existing_stock:
-        return "User does not have stock {}".format(stock)
+        return {"err":"User does not have stock {}".format(stock)}
     existing_num_stock = existing_stock['amount']
     # requested_num_stock = quotes.num_of_stocks(user_id, stock, amount)
     if amount > existing_num_stock:
-        return "Cannot sell {} of stock {}, only {}".format(amount, stock, existing_num_stock)
+        return {"err": "Cannot sell {} of stock {}, only {}".format(amount, stock, existing_num_stock)}
 
     timestamp = time.time()
 
     #quote price * num stocks to sell
-    add_fund_amount = quotes.get_quote(user_id, stock)*amount 
+    add_fund_amount = quotes.get_quote(user_id, stock).get("quote")*amount 
 
     #if sufficient, place sell in trans history to wait for commit sell
     log_result = log_db.insert_one(
@@ -44,7 +44,7 @@ def start_sell(user_id, stock, amount):
         'timestamp': timestamp
         }
     )
-    return log_result
+    return {'status':'passed'}
 
 
 def commit_sell(user_id):
@@ -66,11 +66,11 @@ def commit_sell(user_id):
 
     if not log_result:
         #no recent sell action for this user
-        return "No recent sell for user {}".format(user_id)
-
+        return {"err": "No recent sell for user {}".format(user_id)
+}
     action = log_result['action']
     if action != 'SELL': 
-        return "Latest transaction was not sell (cancel or commit)"
+        return {"err": "Latest transaction was not sell (cancel or commit)"}
     stock = log_result['stock']
     amount = log_result['amount']
 
@@ -90,7 +90,7 @@ def commit_sell(user_id):
         'timestamp': timestamp
         }
     )
-    return log_result1
+    return {'status':'passed'}
 
 def cancel_sell(user_id):
     timestamp = time.time()
@@ -127,7 +127,7 @@ def cancel_sell(user_id):
         'timestamp': timestamp
         }
     )
-    return log_result1
+    return {'status':'passed'}
 
 # start_sell('xyz', 'stock1', 3)
 # print(commit_sell('xyz'))

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import transaction from '../../Helper/transaction';
 import AddFunds from '../AddFunds/addFunds';
 import './funds.css'
 
@@ -15,7 +15,24 @@ class Funds extends Component {
     }
 
     componentDidMount(){
-      
+      transaction.getUserInfo(localStorage.getItem("userid")).then((response) => {
+
+        console.log(response.data)
+        if(response.data){
+            if(response.data){
+                this.setState({
+                    balance: response.data.balance,
+                })
+            }
+            
+        }
+        else if(response.error){
+            this.setState({
+                error: response.error
+            })
+        }
+  
+      })
     }
 
     updateBalance = (balance) => {

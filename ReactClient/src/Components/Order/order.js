@@ -12,7 +12,9 @@ class Order extends Component {
         this.state = {
             ordertype : "",
             triggered : false,
-            showConfirmationButtons : false,
+            orderCompleted:false,
+            error: "",
+            orderConfirmation : false,
         }
 
 
@@ -50,60 +52,169 @@ class Order extends Component {
             return
         }
         
+        console.log("The event target name is -->  ", event.target.name)
 
-        if(event.target.name === "Buy" || this.props.ordertype === "Sell"){  
+        if(event.target.name === "Buy" || event.target.name === "Sell"){  
+
+            console.log("In here 1")
 
             if(!this.state.triggered){
+                //regular buy
                 if(event.target.name === "Buy"){
                     transaction.buy(localStorage.getItem("userid"), this.props.stockname, this.state.amount).then((response) => {
                         //allow commit buy only after completing buy successfully
-                        if(response.data.status === "passed"){
+
+                        if(response.data){
+                            if(response.data.status === "passed"){
+                                this.setState({
+                                    error: "",
+                                    orderConfirmation: true
+                                })
+                            }
+                        }
+                        else if(response.error){
                             this.setState({
-                                showConfirmationButtons: true
+                                error: response.error
                             })
                         }
+
                     })
 
                 } else{
-                    
+                    //regular sell
                     transaction.sell(localStorage.getItem("userid"), this.props.stockname, this.state.amount).then((response) => {
                         //allow commit sell only after completing buy successfully
                         if(response.data.status === "passed"){
+                            console.log("sell has returned data")
                             this.setState({
-                                showConfirmationButtons: true
+                                orderConfirmation: true
                             })
                         }
                     })
                 }
             }
             else{
-                event.target.name === "Buy" ? transaction.setBuy(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggered) : transaction.setSell(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggered)
-                
+                //triggered buy
+                if(event.target.name === "Buy"){
+                    transaction.setBuy(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggerVal).then((response) => {
+
+                    })
+                } 
+                //triggered sell
+                else {
+                    transaction.setSell(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggerVal).then((response) => {
+
+                    })
+                }
             }
             return
         }
 
         if(event.target.name === "Commit Buy" || event.target.name === "Commit Sell"){
 
-            this.setState({
-                showConfirmationButtons: false
-            })
+            console.log("In here 2")
 
-            event.target.name === "Commit Buy" ? transaction.commitBuy() : transaction.commitSell()
+            //commit last buy transaction
+            if(event.target.name === "Commit Buy"){
+                transaction.commitBuy(localStorage.getItem("userid")).then(response => {
+                    console.log("Commit buy response is == ", response)
+
+                    if(response.data){
+                        if(response.data.status === "passed"){
+                            this.props.orderCompleted()
+                        }
+                    }
+                    else if(response.error){
+                        this.setState({
+                            error: response.error
+                        })
+                    }
+
+                })
+            } 
+            //commit last sell transaction
+            else{
+                transaction.commitSell(localStorage.getItem("userid")).then(response => {
+                    if(response.data.status === "passed"){
+                        console.log("commitsell has passed")
+                        if(response.data){
+                            if(response.data.status === "passed"){
+                                this.props.orderCompleted()
+                            }
+                        }
+                        else if(response.error){
+                            this.setState({
+                                error: response.error
+                            })
+                        }
+                    }
+
+                })
+            }
             return
         }
 
         if(event.target.name === "Cancel Buy" || event.target.name === "Cancel Sell"){
 
-            this.setState({
-                showConfirmationButtons: false
-            })
+            console.log("In here 3")            
 
             if(this.state.triggered){
-                event.target.name === "Cancel Buy" ? transaction.cancelSetBuy() : transaction.cancelSetSell()
+                //cancel last set buy
+                if(event.target.name === "Cancel Buy"){ 
+                    transaction.cancelSetBuy(localStorage.getItem("userid"), this.props.stockname).then(response => {
+                        console.log(response)
+                        if(response.data){
+                            if(response.data.status === "passed"){
+                                this.setState({
+                                    error: "",
+                                    orderConfirmation: true
+                                })
+                            }
+                        }
+                        else if(response.error){
+                            this.setState({
+                                error: response.error
+                            })
+                        }
+                    })
+                }
+                //cancel last set sell
+                else{
+                    transaction.cancelSetSell(localStorage.getItem("userid"), this.props.stockname).then(response => {
+                        if(response.data.status === "passed"){
+                            this.setState({
+                                orderConfirmation: true
+                            })
+                        }
+                    })
+                }
             }
+            
             else if (!this.state.triggered){
-                event.target.name === "Cancel Buy" ? transaction.cancelBuy() : transaction.cancelSell()
+                if(event.target.name === "Cancel Buy"){
+                    transaction.cancelBuy(localStorage.getItem("userid")).then(response => {
+                        console.log(response)
+                        if(response.data){
+                            if(response.data.status === "passed"){
+                                this.props.orderCompleted()
+                            }
+                        }
+                        else if(response.error){
+                            this.setState({
+                                error: response.error
+                            })
+                        }
+                    })
+                }
+                else{
+                    transaction.cancelSell(localStorage.getItem("userid")).then(response => {
+                        if(response.data.status === "passed"){
+                            this.setState({
+                                orderConfirmation: true
+                            })
+                        }
+                    })
+                }
             }
             return
         }
@@ -129,6 +240,7 @@ class Order extends Component {
                         </div>
 
 
+
         return (
             <div className="Order">
 
@@ -138,13 +250,21 @@ class Order extends Component {
 
                     <h3 className="Order-stockname">{this.props.stockname}</h3>
 
+                {this.props.stockprice && 
                     <h3 className="Order-stockprice">{this.props.stockprice} $</h3>
+                }
 
+                {this.props.amountowned && 
+                    <>
+                        <label className="Order-labelowned">Owned</label>
+                        <h3 className="Order-stockprice">{this.props.amountowned} $</h3>
+                    </>                
+                }
                 </div>
 
                 <div className="Order-container">
                     <label className="Order-label">{this.props.ordertype} type </label>
-                    <select className="Order-dropdown" name="order type" id="ordertype" onChange={this.handleChange}>
+                    <select className="Order-dropdown" name="order type" id="ordertype" onChange={this.handleChange} disabled={this.state.orderConfirmation}>
                         <option value="market">Market {this.props.ordertype}</option>
                         <option value="triggered">Set {this.props.ordertype} Trigger</option>
                     </select>
@@ -155,26 +275,27 @@ class Order extends Component {
 
                     <div className="Order-container">
                         <label className="Order-label">{this.props.ordertype} amount </label>
-                        <input className="Order-input" name="amount" type="number" min="1" onChange={this.handleChange}></input>
-
+                        <input className="Order-input" name="amount" type="number" min="1" onChange={this.handleChange} readOnly={this.state.orderConfirmation}></input>
                     </div>
                         
                     {this.state.triggered && 
                         <div className="Order-container">
                             <label className="Order-label">{this.props.ordertype} trigger  </label>
-                            <input className="Order-input" name="triggerVal" type="number" min="1" onChange={this.handleChange}></input>
+                            <input className="Order-input" name="triggerVal" type="number" min="1" readOnly={this.state.orderConfirmation} ></input>
                         </div>
                     }
 
                     <div>
-                        {this.state.showConfirmationButtons ? confirmButtons : button }
+                        {this.state.orderConfirmation ? confirmButtons : button }
                     </div>
+
+                    {this.state.error}
             
                 </form>
 
             </div>
         );
-       
+
     }
   }
   

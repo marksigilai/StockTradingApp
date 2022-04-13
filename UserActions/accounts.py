@@ -12,7 +12,12 @@ def find_user_account(user_id):
     result = config.collection.accounts.find_one(
         {'id': user_id}
     )
-    return result
+
+    response = {
+        "balance": result.get("amount")
+    }
+    print(response)
+    return response
 
 def get_user_stocks(user_id):
     result = config.collection.accounts.find_one(

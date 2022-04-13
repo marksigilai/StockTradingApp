@@ -32,6 +32,7 @@ def start_buy(user_id, stock, amount):
 
     #if sufficient, place buy in trans history to wait for commit buy
     num_stocks = quotes.num_of_stocks(user_id, stock, amount)
+
     timestamp = time.time()
     log_result = log_db.insert_one(
         {'id': user_id, 
@@ -45,6 +46,7 @@ def start_buy(user_id, stock, amount):
 
 
 def commit_buy(user_id):
+
     timestamp = time.time()
     time_min_60 = timestamp - 60
     #query for user id buy within 60 seconds
@@ -61,12 +63,12 @@ def commit_buy(user_id):
         sort=[('timestamp', pymongo.DESCENDING)]
     )
 
+
     if not log_result:
-        return "No recent buy action for user {}".format(user_id)
-    # print(log_result)
+        return {"err": "No recent buy action for user {}".format(user_id)}
     action = log_result['action']
     if action != 'BUY': 
-        return "Latest transaction was not buy (cancel or commit)"
+        return {"err" : "Latest transaction was not buy (cancel or commit)"}
     stock = log_result['stock']
     amount = log_result['amount']
 
@@ -93,7 +95,8 @@ def commit_buy(user_id):
         'timestamp': timestamp
         }
     )
-    return log_result1
+
+    return {'status':'passed'}
 
 def cancel_buy(user_id):
     timestamp = time.time()
@@ -114,11 +117,12 @@ def cancel_buy(user_id):
 
     if not log_result:
         #no recent buy action for this user
-        return "No recent buy for user {}".format(user_id)
+        return {"err": "No recent buy for user {}".format(user_id)}
 
     action = log_result['action']
     if action != 'BUY': 
-        return "Latest transaction was cancel"
+        # return {"err": "Latest transaction was cancel"}
+        return {"err": "Latest transaction not a buy??"}
     stock = log_result['stock']
     amount = log_result['amount']
 
@@ -130,7 +134,7 @@ def cancel_buy(user_id):
         'timestamp': timestamp
         }
     )
-    return log_result1
+    return {'status':'passed'}
 
 # start_buy('xyz', 'stock1', 10)
 # print(commit_buy('xyz'))

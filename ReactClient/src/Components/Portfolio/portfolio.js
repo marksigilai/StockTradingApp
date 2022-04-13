@@ -1,29 +1,53 @@
 import React, { Component } from 'react';
 import Stock from '../../Components/Stock/stock.js'
 import './portfolio.css'
+import transaction from '../../Helper/transaction';
 
 class Portfolio extends Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
-      stocks :[{name: "APPLE", amount: 5}, {name: "BO", amount: 15}, {name: "WCM", amount: 3}, {name: "QYOU", amount: 1}],
+      stocks : [],
       balance : 3000
     }
   }
 
   componentDidMount(){
     //obtain account info - name, balance, stocks owned = array of objects
-    
+
+    transaction.getStocks(localStorage.getItem("userid")).then((response) => {
+
+      if(response.data){
+          if(response.data){
+              this.setState({
+                  error: "",
+                  orderConfirmation: true,
+                  stocks: response.data.stocks
+              })
+          }
+          
+      }
+      else if(response.error){
+          this.setState({
+              error: response.error
+          })
+      }
+
+    })
+  
   }
   
     render() {
 
-      var stocks = [];
+      
+
+
+      var stocklist = [];
 
       for(var i = 0; i < this.state.stocks.length; i++){
-        stocks.push(<Stock  name = {this.state.stocks[i].name} amount = {this.state.stocks[i].amount }/>)
+        stocklist.push(<Stock stockname = {this.state.stocks[i].name} stockamount = {this.state.stocks[i].amount }/>)
       }
 
       
@@ -32,7 +56,9 @@ class Portfolio extends Component {
 
           <h2 className="Portfolio-header">Portfolio</h2>
 
-          {stocks}
+          <div className='Portfolio-container'>
+            {stocklist}
+          </div>
 
         </div>
       );

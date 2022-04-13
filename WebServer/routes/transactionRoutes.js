@@ -11,7 +11,7 @@ router.post('/useraccount', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://127.0.0.1:5000/useraccount";
+    let url = "http://transaction_server:5000/useraccount";
 
     axios({
         method:'POST',
@@ -21,23 +21,49 @@ router.post('/useraccount', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json(response)
+        console.log(response.data)
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
         res.status(201).json(error)
     })
 
     console.log('balance requested');
 
-    res.send("sending user account info")
 });
+
+//get list of users stocks
+router.post('/getstocks', (req, res) => {
+    const {userid} = req.body;
+
+    let url = "http://transaction_server:5000/userstocks";
+
+    axios({
+        method:'POST',
+        url,
+        data: {
+            id: userid,
+        }
+    })
+    .then(function (response) {
+        res.status(201).json(response.data)
+    })
+    .catch(function (error) {
+
+        res.status(201).json(error)
+    })
+
+    console.log('list of stocks requested');
+
+});
+
+
 
 //add amount
 router.post('/add', (req, res) => {
     const {userid, amount} = req.body;
 
-    let url = "http://127.0.0.1:5000/ADD";
+    let url = "http://transaction_server:5000/ADD";
 
     axios({
         method:'POST',
@@ -66,7 +92,7 @@ router.post('/quote', (req, res) => {
     console.log(req.body);
     const {userid, stock} = req.body;
 
-    let url = "http://127.0.0.1:5000/QUOTE";
+    let url = "http://transaction_server:5000/QUOTE";
 
     axios({
         method:'POST',
@@ -93,7 +119,7 @@ router.post('/quote', (req, res) => {
 router.post('/buy', async (req, res) => {
     const {userid, stockSymbol, amount} = req.body;
 
-    let url = "http://127.0.0.1:5000/BUY";
+    let url = "http://transaction_server:5000/BUY";
 
     axios({
         method:'POST',
@@ -105,7 +131,6 @@ router.post('/buy', async (req, res) => {
         }
     })
     .then(function (response) {
-        console.log(response.data)
         res.status(201).json(response.data)
     })
     .catch(function (error) {
@@ -120,7 +145,8 @@ router.post('/sell', (req, res) => {
     console.log(req.body);
     const {userid, stock, amount} = req.body;
 
-    let url = "http://127.0.0.1:5000/SELL";
+    console.log(stock)
+    let url = "http://transaction_server:5000/SELL";
 
     axios({
         method:'POST',
@@ -132,17 +158,17 @@ router.post('/sell', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
 
     console.log('sell requested');
 
-    res.send("sell")
 });
 
 
@@ -152,7 +178,7 @@ router.post('/commitbuy', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://127.0.0.1:5000/COMMIT_BUY";
+    let url = "http://transaction_server:5000/COMMIT_BUY";
 
     axios({
         method:'POST',
@@ -162,15 +188,12 @@ router.post('/commitbuy', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
-
-
-    res.send("commit buy")
 
 });
 
@@ -180,7 +203,7 @@ router.post('/cancelbuy', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://127.0.0.1:5000/CANCEL_BUY";
+    let url = "http://transaction_server:5000/CANCEL_BUY";
 
     axios({
         method:'POST',
@@ -190,17 +213,13 @@ router.post('/cancelbuy', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
-
-    console.log('cancel buy requested');
-
-    res.send("buy")
 });
 
 
@@ -209,29 +228,27 @@ router.post('/commitsell', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://127.0.0.1:5000/COMMIT_SELL";
+    let url = "http://transaction_server:5000/COMMIT_SELL";
 
     axios({
         method:'POST',
         url,
         data: {
             id: userid,
-            stock: stock,
-            amount: amount
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
 
     console.log('commit sell requested');
 
-    res.send("commit sell")
 });
 
     
@@ -240,7 +257,7 @@ router.post('/cancelsell', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://127.0.0.1:5000/CANCEL_SELL";
+    let url = "http://transaction_server:5000/CANCEL_SELL";
 
     axios({
         method:'POST',
@@ -252,16 +269,16 @@ router.post('/cancelsell', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        console.log("Cancel sell response --> " + response)
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
     console.log('cancel sell requested');
 
-    res.send("cancel sell")
 });
 
 //set buy amount
@@ -269,7 +286,7 @@ router.post('/setbuyamount', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://127.0.0.1:5000/SET_BUY_TRIGGER";
+    let url = "http://transaction_server:5000/SET_BUY_TRIGGER";
 
     axios({
         method:'POST',
@@ -281,15 +298,15 @@ router.post('/setbuyamount', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        console.log("Set buy amount response --> " + response)
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
 
-    res.send("set buy")
 });
 
 
@@ -298,7 +315,7 @@ router.post('/cancelsetbuy', (req, res) => {
     console.log(req.body);
     const {userid, stock} = req.body;
 
-    let url = "http://127.0.0.1:5000/CANCEL_SET_BUY";
+    let url = "http://transaction_server:5000/CANCEL_SET_BUY";
 
     axios({
         method:'POST',
@@ -309,15 +326,14 @@ router.post('/cancelsetbuy', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        console.log("Cancel set buy response --> " + response)
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
-    
-    res.send("cancel set buy")
 });
 
 //set buy trigger
@@ -326,7 +342,7 @@ router.post('/setbuytrigger', async (req, res) => {
     console.log(req.body);
     const {username, stock, amount} = req.body;
 
-    let url = "http://127.0.0.1:5000/SET_BUY_TRIGGER";
+    let url = "http://transaction_server:5000/SET_BUY_TRIGGER";
 
     axios({
         method:'POST',
@@ -338,10 +354,10 @@ router.post('/setbuytrigger', async (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
@@ -353,7 +369,7 @@ router.post('/setsellamount', (req, res) => {
     console.log(req.body);
     const {userid, stock, amount} = req.body;
 
-    let url = "http://127.0.0.1:5000/SET_SELL_AMOUNT";
+    let url = "http://transaction_server:5000/SET_SELL_AMOUNT";
 
     axios({
         method:'POST',
@@ -365,14 +381,12 @@ router.post('/setsellamount', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
-
-    res.send("set sell amount")
 });
 
 //set sell trigger
@@ -380,7 +394,7 @@ router.post('/setselltrigger', (req, res) => {
     console.log(req.body);
     const {userid, stock, amount} = req.body;
 
-    let url = "http://127.0.0.1:5000/SET_SELL_TRIGGER";
+    let url = "http://transaction_server:5000/SET_SELL_TRIGGER";
 
     axios({
         method:'POST',
@@ -392,14 +406,13 @@ router.post('/setselltrigger', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
-    res.send("set sell trigger")
 });
       
 
@@ -408,7 +421,7 @@ router.post('/cancelsetsell', (req, res) => {
     console.log(req.body);
     const {userid, stock} = req.body;
 
-    let url = "http://127.0.0.1:5000/CANCEL_SET_SELL";
+    let url = "http://transaction_server:5000/CANCEL_SET_SELL";
 
     axios({
         method:'POST',
@@ -419,14 +432,13 @@ router.post('/cancelsetsell', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
-    res.send("cancel set sell trigger")
 });
       
 
@@ -435,7 +447,7 @@ router.post('/dumplog', (req, res) => {
     console.log(req.body);
     const {userid, stock} = req.body;
 
-    let url = "http://127.0.0.1:5000/DUMPLOG";
+    let url = "http://transaction_server:5000/DUMPLOG";
 
     axios({
         method:'POST',
@@ -447,14 +459,13 @@ router.post('/dumplog', (req, res) => {
         }
     })
     .then(function (response) {
-        res.status(201).json({data: response})
+        res.status(201).json(response.data)
     })
     .catch(function (error) {
-        console.log(error);
+
         res.status(201).json({data: error})
     })
 
-    res.send("dumplog")
 });
 
 //display summary
@@ -462,7 +473,7 @@ router.post('/displaysummary', (req, res) => {
 
     const {userid} = req.body;
         
-    let url = "http://127.0.0.1:5000/DISPLAY_SUMMARY";
+    let url = "http://transaction_server:5000/DISPLAY_SUMMARY";
 
     axios({
         method:'POST',

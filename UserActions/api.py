@@ -21,21 +21,18 @@ def get_user():
     user_id = query_params["id"]
 
     result = accounts.find_user_account(user_id)
-    # return result
-    return 200
+    return jsonify(result)
+
 
 @app.route('/userstocks', methods=['POST'])
 def get_user_stocks():
     query_params = request.get_json()
     user_id = query_params["id"]
-    try:
-        stock_name = query_params.get("stock")
-    except:
-        stock_name = ''
+
     
     result = accounts.get_user_stocks(user_id)
-    # return result
-    return 200
+    print("The info is --> ", result)
+    return jsonify(result)
 
 #Generic functions
 @app.route('/ADD', methods=['POST'])
@@ -77,27 +74,27 @@ def buy_stock():
     user_id = query_params["id"]
     stock_name = query_params["stock"]
     amount = float(query_params["amount"])
-
+    print("Buy for ", user_id)
     result = buy.start_buy(user_id, stock_name, amount)
+    print(jsonify(result))
     return jsonify(result)
 
 @app.route('/COMMIT_BUY', methods=['POST'])
 def commit_buy_stock():
     query_params = request.get_json()
     user_id = query_params["id"]
-    
+    print("Commiting most recent buy for ", user_id)
     result = buy.commit_buy(user_id)
-    # return result
-    return 200
+    print(jsonify(result))
+    return jsonify(result)
 
 @app.route('/CANCEL_BUY', methods=['POST'])
 def cancel_buy_stock():
     query_params = request.get_json()
     user_id = query_params["id"]
-    
+    print("cancelling most recent buy for ", user_id)
     result = buy.cancel_buy(user_id)
-    # return result
-    return 200
+    return jsonify(result)
 
 #Sell
 @app.route('/SELL', methods=['POST'])
@@ -106,10 +103,9 @@ def sell_stock():
     user_id = query_params["id"]
     stock_name = query_params["stock"]
     amount = float(query_params["amount"])
-
+    print("Executing sell for ", user_id, stock_name)
     result = sell.start_sell(user_id, stock_name, amount)
-    # return result
-    return 200
+    return jsonify(result)
 
 @app.route('/COMMIT_SELL', methods=['POST'])
 def commit_sell_stock():
@@ -117,17 +113,15 @@ def commit_sell_stock():
     user_id = query_params["id"]
     
     result = sell.commit_sell(user_id)
-    # return result
-    return 200
+    return jsonify(result)
 
 @app.route('/CANCEL_SELL', methods=['POST'])
 def cancel_sell_stock():
     query_params = request.get_json()
     user_id = query_params["id"]
-
+    print("Cancel recent sell  for ", user_id)
     result = sell.cancel_sell(user_id)
-    # return result
-    return 200
+    return jsonify(result)
 
 #Set Buy
 @app.route('/SET_BUY_AMOUNT', methods=['POST'])
@@ -144,8 +138,7 @@ def set_buy_stock():
     #   update db with decreased cash amount, trigger amount
     result = setbuy.set_buy_amount(user_id, stock_name, amount)
 
-    # return result
-    return 200
+    return jsonify(result)
 
 @app.route('/SET_BUY_TRIGGER', methods=['POST'])
 def set_buy_stock_trigger():
@@ -158,8 +151,7 @@ def set_buy_stock_trigger():
     #create and commit a buy action if the stock price <= trigger amount
     result = setbuy.set_buy_trigger(user_id, stock_name, amount)
 
-    # return result
-    return 200
+    return jsonify(result)
 
 @app.route('/CANCEL_SET_BUY', methods=['POST'])
 def cancel_set_buy_stock():
@@ -174,8 +166,7 @@ def cancel_set_buy_stock():
     #   create a transaction log
     result = setbuy.cancel_set_buy(user_id, stock_name)
 
-    # return result
-    return 200
+    return jsonify(result)
 
 #Set Sell
 @app.route('/SET_SELL_AMOUNT', methods=['POST'])
@@ -192,8 +183,7 @@ def set_sell_stock_amount():
     #   update db with decreased stock amount, trigger amount
     result = setsell.set_sell_amount(user_id, stock_name, amount)
 
-    # return result
-    return 200
+    return jsonify(result)
 
 @app.route('/SET_SELL_TRIGGER', methods=['POST'])
 def set_sell_stock_trigger():
@@ -206,8 +196,7 @@ def set_sell_stock_trigger():
     #create and commit a sell action if the stock price >= trigger amount
     result = setsell.set_sell_trigger(user_id, stock_name, amount)
 
-    # return result
-    return 200
+    return jsonify(result)
 
 @app.route('/CANCEL_SET_SELL', methods=['POST'])
 def cancel_set_sell_stock():
@@ -222,8 +211,7 @@ def cancel_set_sell_stock():
     #   create a transaction log
     result = setsell.cancel_set_sell(user_id, stock_name)
 
-    # return result
-    return 200
+    return jsonify(result)
 
 #Logs
 @app.route('/USER_DUMPLOG', methods=['POST'])
@@ -233,8 +221,7 @@ def user_dumplog_endpoint():
     output_file = query_params.get('filename')
 
     result = logs.user_dumplog(user_id, output_file)
-    # return result
-    return 200
+    return result
 
 @app.route('/DUMPLOG', methods=['POST'])
 def dumplog_endpoint():
@@ -242,8 +229,7 @@ def dumplog_endpoint():
     output_file = query_params.get('filename')
 
     result = logs.dumplog(output_file)
-    # return result
-    return 200
+    return result
 
 @app.route('/DISPLAY_SUMMARY', methods=['POST'])
 def display_summary_endpoint():

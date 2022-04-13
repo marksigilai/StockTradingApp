@@ -8,12 +8,22 @@ class Stock extends Component {
         super()
 
         this.state = {
-            sell: false
+            sell: false,
+            orderCompleted: false
         }
 
         console.log("Hello")
 
     }
+
+
+    orderCompleted = () => {
+        this.setState({
+            orderCompleted: true
+        });
+    }
+
+
   
     //quote for sell ?
     render() {
@@ -23,10 +33,10 @@ class Stock extends Component {
             return (
                 <div className="Stock">
                     
-                    <button className="Stock-container" onClick = {() => this.setState({sell: true})}>
+                    <button className="Stock-container" onClick = {() => this.setState({sell: true, orderCompleted:false})}>
 
-                        <div className="Stock-name">Name is: {this.props.name}</div>
-                        <div className="Stock-amount">Amount owned is: {this.props.amount}</div>
+                        <div className="Stock-name">{this.props.stockname}</div>
+                        <div className="Stock-amount">{this.props.stockamount} $</div>
                         
                     </button>
         
@@ -36,11 +46,13 @@ class Stock extends Component {
 
       return (
         <div className="Stock">
+            <button className="Stock-backBtn" onClick = {() => this.setState({sell: false})}> Close </button>
 
-            <Order ordertype="Sell" stockName={this.props.stockName}  stockAmount={this.props.stockAmount}  />
+            {!this.state.orderCompleted && 
 
-            <button className="Stock-backBtn" onClick = {() => this.setState({sell: false})}> Back </button>
+                <Order ordertype="Sell" stockname={this.props.stockname}  amountowned={this.props.stockamount}  orderCompleted={this.orderCompleted}/>
 
+            }
         </div>
       );
     }

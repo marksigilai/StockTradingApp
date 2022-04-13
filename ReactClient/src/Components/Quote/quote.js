@@ -26,10 +26,20 @@ class Quote extends Component {
 
     }
 
+    orderCompleted = () => {
+        this.setState({
+            orderCompleted: true
+        });
+    }
+
 
     handleSubmit = (event) => {
 
         event.preventDefault();
+
+        this.setState({
+            orderCompleted: true
+        });
 
         if(!this.state.stockname){
             return
@@ -49,7 +59,8 @@ class Quote extends Component {
                 this.setState({
                     stock: res.data.stock,
                     stockprice: res.data.quote,
-                    searchSuccessful : true
+                    searchSuccessful : true,
+                    orderCompleted: false
                 })
 
             }
@@ -75,9 +86,9 @@ class Quote extends Component {
 
             </form>
 
-            {this.state.searchSuccessful && 
+            {this.state.searchSuccessful && !this.state.orderCompleted &&
 
-                <Order ordertype="Buy" stockname={this.state.stock} stockprice={this.state.stockprice}/>
+                <Order ordertype="Buy" stockname={this.state.stock} stockprice={this.state.stockprice} orderCompleted={this.orderCompleted}/>
 
             }
 

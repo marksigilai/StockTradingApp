@@ -7,32 +7,41 @@
 
     text-align: center;
 
-    width: 50vw;
-    margin: 10px auto;
+    max-width: 600px;
+    width: 40vw;
+    min-width: 300px;
+    margin: 20px auto;
     display: flex;
     align-items:flex-start;
     border: none;
     justify-content: space-around;
-    padding: 10px;
+    padding: 20px;
+    border-radius: 5px;
 
 }
 
 .Stock-name {
-
-
+    font-weight: 600;
+    font-size: 18px;
 }
 
 .Stock-amount {
-
-
+    font-weight: 400;
+    font-size: 18px;
 }
 
 .Stock-backBtn {
-    padding: 0.5rem 1rem;
-    margin: 10px;
-    background-color: white;
-    border-radius: 5px;
+    display: block;
+    text-align: center;
+    padding: 0.3rem 0.5rem;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    background-color: red;
 
+    color: white;
     outline: none;
+    border: none;
+    border-radius: 5px;
 }
 
