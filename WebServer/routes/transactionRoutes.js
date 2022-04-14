@@ -117,8 +117,10 @@ router.post('/quote', (req, res) => {
 
 //buy
 router.post('/buy', async (req, res) => {
-    const {userid, stockSymbol, amount} = req.body;
-
+    const {userid, stock, amount} = req.body;
+    console.log(userid);
+    console.log(stock);
+    console.log(amount);
     let url = "http://transaction_server:5000/BUY";
 
     axios({
@@ -126,7 +128,7 @@ router.post('/buy', async (req, res) => {
         url,
         data: {
             id: userid,
-            stock: stockSymbol,
+            stock: stock,
             amount: amount
         }
     })
