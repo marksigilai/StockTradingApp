@@ -4,8 +4,8 @@ import { SharedArray } from 'k6/data';
 import papaparse from 'https://jslib.k6.io/papaparse/5.1.1/index.js';
 
 const data = new SharedArray('commands', function () {
-  // return papaparse.parse(open('./1user.csv')).data;
-  return papaparse.parse(open('./test.csv')).data;
+  return papaparse.parse(open('./1user.csv')).data;
+  // return papaparse.parse(open('./test.csv')).data;
 });
 
 //Groups of commands with the same request bodies
@@ -28,43 +28,43 @@ export default function () {
   let payload = {};
 
   for (let i = 0; i < data.length; i++) {
-    let cmd = data[i][0];
+    let cmd = data[i][0].replace('_', '');
     if (cmd == "ADD") {
       payload = {
-        userid: data[i][1],
+        userid: data[i][1].trim(),
         amount: parseFloat(data[i][2]),
       };
       // console.log(payload['userid']);
     }
     else if (quote_cancel.includes(cmd)) {
       payload = {
-        userid: data[i][1],
+        userid: data[i][1].trim(),
         stock: data[i][2],
       };
     }
     else if (buy_set_sell.includes(cmd)) {
       payload = {
-        userid: data[i][1],
-        stock: data[i][2],
+        userid: data[i][1].trim(),
+        stock: data[i][2].trim(),
         amount: parseFloat(data[i][3]),
       };
     }
     else if (commit_cancel.includes(cmd)) {
       payload = {
-        userid: data[i][1],
+        userid: data[i][1].trim(),
       };
     }
     else if (cmd == "DUMPLOG") {
       if (data[i].length == 3) {
         cmd = "USER_DUMPLOG";
         payload = {
-          userid: data[i][1],
-          filename: data[i][2],
+          userid: data[i][1].trim(),
+          filename: data[i][2].trim(),
         };
       }
       else {
         payload = {
-          filename: data[i][1],
+          filename: data[i][1].trim(),
         };
       }
     }
