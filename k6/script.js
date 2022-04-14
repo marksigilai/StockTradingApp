@@ -28,7 +28,7 @@ export default function () {
   let payload = {};
 
   for (let i = 0; i < data.length; i++) {
-    let cmd = data[i][0].replace('_', '');
+    let cmd = data[i][0].replace('_', '').replace('_', '');
     if (cmd == "ADD") {
       payload = {
         userid: data[i][1].trim(),
