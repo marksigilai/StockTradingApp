@@ -96,14 +96,39 @@ class Order extends Component {
             else{
                 //triggered buy
                 if(event.target.name === "Buy"){
+                    console.log("Doing a set buy WITH TRIGGER VAL --> ", this.state.triggerVal);
                     transaction.setBuy(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggerVal).then((response) => {
-
+                        if(response.data){
+                            console.log("response")
+                            if(response.data.status === "passed"){
+                                console.log("Set buy passed")
+                                this.setState({
+                                    orderConfirmation: true
+                                })                            
+                            }
+                        }
+                        else if(response.error){
+                            this.setState({
+                                error: response.error
+                            })
+                        }
                     })
                 } 
                 //triggered sell
                 else {
                     transaction.setSell(localStorage.getItem("userid"), this.props.stockname, this.state.amount, this.state.triggerVal).then((response) => {
-
+                        if(response.data){
+                            if(response.data.status === "passed"){
+                                this.setState({
+                                    orderConfirmation: true
+                                })
+                            }
+                        }
+                        else if(response.error){
+                            this.setState({
+                                error: response.error
+                            })
+                        }
                     })
                 }
             }
@@ -281,7 +306,7 @@ class Order extends Component {
                     {this.state.triggered && 
                         <div className="Order-container">
                             <label className="Order-label">{this.props.ordertype} trigger  </label>
-                            <input className="Order-input" name="triggerVal" type="number" min="1" readOnly={this.state.orderConfirmation} ></input>
+                            <input className="Order-input" name="triggerVal" type="number" min="1" onChange={this.handleChange} readOnly={this.state.orderConfirmation} ></input>
                         </div>
                     }
 

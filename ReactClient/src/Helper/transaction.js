@@ -106,7 +106,7 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("buy", { userid: userid, stockSymbol: stockSymbol, amount: amount }).then( res => {
+            axios.post("buy", { userid: userid, stock: stockSymbol, amount: amount }).then( res => {
             
                 res.data.err ? resolve({ error: res.data.err}) : resolve({ data: res.data })
     
@@ -216,20 +216,22 @@ class Transaction{
         
     }
 
-    setBuy = (userid, stockSymbol, amount, trigger) => {
+    setBuy = (userid, stock, amount, trigger) => {
 
         return new Promise((resolve, reject) => {
 
-            axios.post("setBuyAmount", { userid: userid, stockSymbol: stockSymbol, amount: amount }).then( res => {
-            
-                res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
-    
-            }).catch(err => {
-                console.log(err)
-                reject()
-            })
+            console.log("Transaction.js doing a set buy both")
 
-            axios.post("setBuyTrigger", { userid: userid, stockSymbol: stockSymbol, amount: amount }).then( res => {
+            axios.post("setbuyamount", { userid: userid, stock: stock, amount: amount }).then( res => {
+
+                axios.post("setbuytrigger", { userid: userid, stock: stock, trigger: trigger }).then( res => {
+            
+                    res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
+        
+                }).catch(err => {
+                    console.log(err)
+                    reject()
+                })
             
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     
@@ -248,12 +250,12 @@ class Transaction{
 
         return new Promise((resolve, reject) => {
 
-            axios.post("setSellAmount", { userid: userid, stockSymbol: stockSymbol, amount: amount }).then( res => {
+            axios.post("setSellAmount", { userid: userid, stock: stockSymbol, amount: amount }).then( res => {
             
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
 
                 //2nd post for the trigger
-                axios.post("setSellTrigger", { userid: userid, stockSymbol: stockSymbol, trigger: trigger }).then( res => {
+                axios.post("setSellTrigger", { userid: userid, stock: stockSymbol, trigger: trigger }).then( res => {
             
                     res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
         
@@ -276,7 +278,7 @@ class Transaction{
     cancelSetBuy = (userid, stockSymbol) => {
         return new Promise((resolve, reject) => {
 
-            axios.post("cancelsetbuy", { userid: userid, stockSymbol: stockSymbol }).then( res => {
+            axios.post("cancelsetbuy", { userid: userid, stock: stockSymbol }).then( res => {
             
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     
@@ -295,7 +297,7 @@ class Transaction{
     cancelSetSell = (userid, stockSymbol) => {
         return new Promise((resolve, reject) => {
 
-            axios.post("cancelsetsell", { userid: userid, stockSymbol: stockSymbol }).then( res => {
+            axios.post("cancelsetsell", { userid: userid, stock: stockSymbol }).then( res => {
             
                 res.data.err ? resolve({ error: res.data.error}) : resolve({ data: res.data })
     

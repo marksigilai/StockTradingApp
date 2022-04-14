@@ -52,7 +52,7 @@ def set_sell_amount(user_id, stock, stock_amount):
         'timestamp': timestamp
         }
     )
-    return log_result
+    return {'status':'passed'}
 
 def set_sell_trigger(user_id, stock, trigger_amount):
     trigger_user_id = user_id+'_selltrigger_'+stock
@@ -98,7 +98,7 @@ def set_sell_trigger(user_id, stock, trigger_amount):
         }
     )
 
-    return log_result
+    return {'status':'passed'}
 
 def cancel_set_sell(user_id, stock):
     trigger_user_id = user_id+'_selltrigger_'+stock
@@ -131,7 +131,7 @@ def cancel_set_sell(user_id, stock):
         }
     )
 
-    return log_result
+    return {'status':'passed'}
 
 # set_sell_amount('xyz', 'stock1', 1)
 # set_sell_trigger('xyz', 'stock1', 2)

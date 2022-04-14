@@ -19,7 +19,7 @@ def set_buy_amount(user_id, stock, amount):
     )
     existing_amount = amt_result['amount']
     if existing_amount < amount:
-        return "Cannot buy {} of stock {}".format(amount, stock)
+        return {"err" :"Cannot buy {} of stock {}".format(amount, stock)}
 
     check_triggers_result = accounts_db.find_one(
         {'id': trigger_user_id}
@@ -27,7 +27,7 @@ def set_buy_amount(user_id, stock, amount):
     print(check_triggers_result)
     if check_triggers_result:
         print("duplicate trigger")
-        return "cannot create duplicate trigger"
+        return {"err": "cannot create duplicate trigger"}
 
     #(a) a reserve account is created for the BUY transaction to hold 
     #   the specified amount in reserve for when the transaction is 
@@ -58,7 +58,7 @@ def set_buy_amount(user_id, stock, amount):
         'timestamp': timestamp
         }
     )
-    return log_result
+    return {'status':'passed'}
 
 def set_buy_trigger(user_id, stock, trigger_amount):
     trigger_user_id = user_id+'_buytrigger_'+stock
@@ -73,7 +73,7 @@ def set_buy_trigger(user_id, stock, trigger_amount):
     )
 
     if update_result.matched_count == 0:
-        return "Error: no previous set buy amount when trigger set"
+        return {"err": "Error: no previous set buy amount when trigger set"}
 
     #record log
     timestamp = time.time()
@@ -86,7 +86,7 @@ def set_buy_trigger(user_id, stock, trigger_amount):
         }
     )
 
-    return log_result
+    return {'status':'passed'}
 
 def cancel_set_buy(user_id, stock):
     trigger_user_id = user_id+'_buytrigger_'+stock
@@ -117,7 +117,7 @@ def cancel_set_buy(user_id, stock):
         }
     )
 
-    return log_result
+    return {'status':'passed'}
 
 # set_buy_amount('xyz', 'stock1', 10)
 # set_buy_amount('xyz', 'stock1', 10)

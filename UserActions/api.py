@@ -145,11 +145,11 @@ def set_buy_stock_trigger():
     query_params = request.get_json()
     user_id = query_params["id"]
     stock_name = query_params["stock"]
-    amount = float(query_params["amount"])
+    trigger = float(query_params["trigger"])
 
     #query for quoteserver stock price
     #create and commit a buy action if the stock price <= trigger amount
-    result = setbuy.set_buy_trigger(user_id, stock_name, amount)
+    result = setbuy.set_buy_trigger(user_id, stock_name, trigger)
 
     return jsonify(result)
 

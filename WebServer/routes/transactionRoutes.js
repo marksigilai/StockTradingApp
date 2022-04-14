@@ -266,8 +266,6 @@ router.post('/cancelsell', (req, res) => {
         url,
         data: {
             id: userid,
-            stock: stock,
-            amount: amount
         }
     })
     .then(function (response) {
@@ -286,9 +284,9 @@ router.post('/cancelsell', (req, res) => {
 //set buy amount
 router.post('/setbuyamount', (req, res) => {
     console.log(req.body);
-    const {userid} = req.body;
+    const {userid, stock, amount} = req.body;
 
-    let url = "http://transaction_server:5000/SET_BUY_TRIGGER";
+    let url = "http://transaction_server:5000/SET_BUY_AMOUNT";
 
     axios({
         method:'POST',
@@ -300,7 +298,6 @@ router.post('/setbuyamount', (req, res) => {
         }
     })
     .then(function (response) {
-        console.log("Set buy amount response --> " + response)
         res.status(201).json(response.data)
     })
     .catch(function (error) {
@@ -308,13 +305,37 @@ router.post('/setbuyamount', (req, res) => {
         res.status(201).json({data: error})
     })
 
+});
+
+//set buy trigger
+router.post('/setbuytrigger', async (req, res) => {
+
+    const {userid, stock, trigger} = req.body;
+
+    let url = "http://transaction_server:5000/SET_BUY_TRIGGER";
+
+    axios({
+        method:'POST',
+        url,
+        data: {
+            id: userid,
+            stock: stock,
+            trigger: trigger
+        }
+    })
+    .then(function (response) {
+        res.status(201).json(response.data)
+    })
+    .catch(function (error) {
+
+        res.status(201).json({data: error})
+    })
 
 });
 
-
 //cancel set buy
 router.post('/cancelsetbuy', (req, res) => {
-    console.log(req.body);
+
     const {userid, stock} = req.body;
 
     let url = "http://transaction_server:5000/CANCEL_SET_BUY";
@@ -338,37 +359,9 @@ router.post('/cancelsetbuy', (req, res) => {
 
 });
 
-//set buy trigger
-router.post('/setbuytrigger', async (req, res) => {
-
-    console.log(req.body);
-    const {username, stock, amount} = req.body;
-
-    let url = "http://transaction_server:5000/SET_BUY_TRIGGER";
-
-    axios({
-        method:'POST',
-        url,
-        data: {
-            id: userid,
-            stock: stock,
-            amount: amount
-        }
-    })
-    .then(function (response) {
-        res.status(201).json(response.data)
-    })
-    .catch(function (error) {
-
-        res.status(201).json({data: error})
-    })
-
-});
-
-
 //set sell amount
 router.post('/setsellamount', (req, res) => {
-    console.log(req.body);
+
     const {userid, stock, amount} = req.body;
 
     let url = "http://transaction_server:5000/SET_SELL_AMOUNT";
@@ -393,7 +386,7 @@ router.post('/setsellamount', (req, res) => {
 
 //set sell trigger
 router.post('/setselltrigger', (req, res) => {
-    console.log(req.body);
+
     const {userid, stock, amount} = req.body;
 
     let url = "http://transaction_server:5000/SET_SELL_TRIGGER";
@@ -486,7 +479,7 @@ router.post('/displaysummary', (req, res) => {
     })
     .then(function (response) {
 
-        console.log(JSON.parse(response.data.replace('\\', '')))
+        //console.log(JSON.parse(response.data.replace('\\', '')))
         res.status(201).send(JSON.parse(response.data.replace('\\', '')))
     })
     .catch(function (error) {
