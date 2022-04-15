@@ -440,7 +440,7 @@ router.post('/cancelsetsell', (req, res) => {
 //dumplog
 router.post('/dumplog', (req, res) => {
     console.log(req.body);
-    const {userid, stock} = req.body;
+    const {filename} = req.body;
 
     let url = "http://transaction_server:5000/DUMPLOG";
 
@@ -448,9 +448,31 @@ router.post('/dumplog', (req, res) => {
         method:'POST',
         url,
         data: {
+            filename: filename
+        }
+    })
+    .then(function (response) {
+        res.status(201).json(response.data)
+    })
+    .catch(function (error) {
+
+        res.status(201).json({data: error})
+    })
+
+});
+
+router.post('/userdumplog', (req, res) => {
+    console.log(req.body);
+    const {userid, filename} = req.body;
+
+    let url = "http://transaction_server:5000/USER_DUMPLOG";
+
+    axios({
+        method:'POST',
+        url,
+        data: {
             id: userid,
-            stock: stock,
-            amount: amount
+            filename: filename
         }
     })
     .then(function (response) {

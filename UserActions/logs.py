@@ -11,14 +11,14 @@ def user_dumplog(user_id, outputfile):
   xml_result = xml_builder.convert(result)
   f = open(outputfile, "w")
   f.write(xml_result)
-  return result
+  return {'status':'passed'}
 
 def dumplog(outputfile):
   result = config.collection.logs.find()
   xml_result = xml_builder.convert(result)
   f = open(outputfile, "w")
   f.write(xml_result)
-  return result
+  return {'status':'passed'}
 
 def display_summary(user_id):
   accounts_result = config.collection.accounts.find(

@@ -98,6 +98,8 @@ def cancel_set_buy(user_id, stock):
             {'type': 'BUY'}
         ]}
     )
+    if trigger_result is None:
+        return {'status':'nothing to cancel'}
     set_amount = trigger_result['amount']
     trigger_amount = trigger_result['trigger_amount']
     add_result = accounts.add_funds(user_id, set_amount)

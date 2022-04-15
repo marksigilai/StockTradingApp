@@ -202,7 +202,7 @@ def set_sell_stock_trigger():
 def cancel_set_sell_stock():
     query_params = request.get_json()
     user_id = query_params["id"]
-    stock_name = query_params.get["stock"]
+    stock_name = query_params["stock"]
 
     #query transactions (or user account?) for a set sell amount
     #if exists,

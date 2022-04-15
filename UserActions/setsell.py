@@ -106,6 +106,8 @@ def cancel_set_sell(user_id, stock):
     trigger_result = triggers_db.find_one_and_delete(
         {'id': trigger_user_id}
     )
+    if trigger_result is None:
+        return {'status':'nothing to cancel'}
     set_amount = trigger_result['stock']['amount']
     trigger_amount = trigger_result['trigger_amount']
     

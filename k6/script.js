@@ -28,7 +28,8 @@ export default function () {
   let payload = {};
 
   for (let i = 0; i < data.length; i++) {
-    let cmd = data[i][0].replace('_', '').replace('_', '');
+    let cmd0 = data[i][0];
+    let cmd = cmd0.replace('_', '').replace('_', '');
     if (cmd == "ADD") {
       payload = {
         userid: data[i][1].trim(),
@@ -36,27 +37,27 @@ export default function () {
       };
       // console.log(payload['userid']);
     }
-    else if (quote_cancel.includes(cmd)) {
+    else if (quote_cancel.includes(cmd0)) {
       payload = {
         userid: data[i][1].trim(),
-        stock: data[i][2],
+        stock: data[i][2].trim(),
       };
     }
-    else if (buy_set_sell.includes(cmd)) {
+    else if (buy_set_sell.includes(cmd0)) {
       payload = {
         userid: data[i][1].trim(),
         stock: data[i][2].trim(),
         amount: parseFloat(data[i][3]),
       };
     }
-    else if (commit_cancel.includes(cmd)) {
+    else if (commit_cancel.includes(cmd0)) {
       payload = {
         userid: data[i][1].trim(),
       };
     }
-    else if (cmd == "DUMPLOG") {
+    else if (cmd0 == "DUMPLOG") {
       if (data[i].length == 3) {
-        cmd = "USER_DUMPLOG";
+        cmd = "USERDUMPLOG";
         payload = {
           userid: data[i][1].trim(),
           filename: data[i][2].trim(),
