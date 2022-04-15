@@ -11,7 +11,7 @@ router.post('/useraccount', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://transaction_server:5000/useraccount";
+    let url = "http://lb_t:5000/useraccount";
 
     axios({
         method:'POST',
@@ -36,7 +36,7 @@ router.post('/useraccount', (req, res) => {
 router.post('/getstocks', (req, res) => {
     const {userid} = req.body;
 
-    let url = "http://transaction_server:5000/userstocks";
+    let url = "http://lb_t:5000/userstocks";
 
     axios({
         method:'POST',
@@ -63,7 +63,7 @@ router.post('/getstocks', (req, res) => {
 router.post('/add', (req, res) => {
     const {userid, amount} = req.body;
 
-    let url = "http://transaction_server:5000/ADD";
+    let url = "http://lb_t:5000/ADD";
 
     axios({
         method:'POST',
@@ -92,7 +92,7 @@ router.post('/quote', (req, res) => {
     console.log(req.body);
     const {userid, stock} = req.body;
 
-    let url = "http://transaction_server:5000/QUOTE";
+    let url = "http://lb_t:5000/QUOTE";
 
     axios({
         method:'POST',
@@ -121,7 +121,7 @@ router.post('/buy', async (req, res) => {
     console.log(userid);
     console.log(stock);
     console.log(amount);
-    let url = "http://transaction_server:5000/BUY";
+    let url = "http://lb_t:5000/BUY";
 
     axios({
         method:'POST',
@@ -148,7 +148,7 @@ router.post('/sell', (req, res) => {
     const {userid, stock, amount} = req.body;
 
     console.log(stock)
-    let url = "http://transaction_server:5000/SELL";
+    let url = "http://lb_t:5000/SELL";
 
     axios({
         method:'POST',
@@ -180,7 +180,7 @@ router.post('/commitbuy', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://transaction_server:5000/COMMIT_BUY";
+    let url = "http://lb_t:5000/COMMIT_BUY";
 
     axios({
         method:'POST',
@@ -205,7 +205,7 @@ router.post('/cancelbuy', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://transaction_server:5000/CANCEL_BUY";
+    let url = "http://lb_t:5000/CANCEL_BUY";
 
     axios({
         method:'POST',
@@ -230,7 +230,7 @@ router.post('/commitsell', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://transaction_server:5000/COMMIT_SELL";
+    let url = "http://lb_t:5000/COMMIT_SELL";
 
     axios({
         method:'POST',
@@ -259,7 +259,7 @@ router.post('/cancelsell', (req, res) => {
     console.log(req.body);
     const {userid} = req.body;
 
-    let url = "http://transaction_server:5000/CANCEL_SELL";
+    let url = "http://lb_t:5000/CANCEL_SELL";
 
     axios({
         method:'POST',
@@ -269,7 +269,7 @@ router.post('/cancelsell', (req, res) => {
         }
     })
     .then(function (response) {
-        // console.log("Cancel sell response --> " + response)
+        //console.log("Cancel sell response --> " + response)
         res.status(201).json(response.data)
     })
     .catch(function (error) {
@@ -277,7 +277,7 @@ router.post('/cancelsell', (req, res) => {
         res.status(201).json({data: error})
     })
 
-    // console.log('cancel sell requested');
+    //console.log('cancel sell requested');
 
 });
 
@@ -286,7 +286,7 @@ router.post('/setbuyamount', (req, res) => {
     console.log(req.body);
     const {userid, stock, amount} = req.body;
 
-    let url = "http://transaction_server:5000/SET_BUY_AMOUNT";
+    let url = "http://lb_t:5000/SET_BUY_AMOUNT";
 
     axios({
         method:'POST',
@@ -312,7 +312,7 @@ router.post('/setbuytrigger', async (req, res) => {
 
     const {userid, stock, amount} = req.body;
 
-    let url = "http://transaction_server:5000/SET_BUY_TRIGGER";
+    let url = "http://lb_t:5000/SET_BUY_TRIGGER";
 
     axios({
         method:'POST',
@@ -338,7 +338,7 @@ router.post('/cancelsetbuy', (req, res) => {
 
     const {userid, stock} = req.body;
 
-    let url = "http://transaction_server:5000/CANCEL_SET_BUY";
+    let url = "http://lb_t:5000/CANCEL_SET_BUY";
 
     axios({
         method:'POST',
@@ -349,7 +349,7 @@ router.post('/cancelsetbuy', (req, res) => {
         }
     })
     .then(function (response) {
-        // console.log("Cancel set buy response --> " + response)
+        //console.log("Cancel set buy response --> " + response)
         res.status(201).json(response.data)
     })
     .catch(function (error) {
@@ -364,7 +364,7 @@ router.post('/setsellamount', (req, res) => {
 
     const {userid, stock, amount} = req.body;
 
-    let url = "http://transaction_server:5000/SET_SELL_AMOUNT";
+    let url = "http://lb_t:5000/SET_SELL_AMOUNT";
 
     axios({
         method:'POST',
@@ -389,7 +389,7 @@ router.post('/setselltrigger', (req, res) => {
 
     const {userid, stock, amount} = req.body;
 
-    let url = "http://transaction_server:5000/SET_SELL_TRIGGER";
+    let url = "http://lb_t:5000/SET_SELL_TRIGGER";
 
     axios({
         method:'POST',
@@ -416,7 +416,7 @@ router.post('/cancelsetsell', (req, res) => {
     console.log(req.body);
     const {userid, stock} = req.body;
 
-    let url = "http://transaction_server:5000/CANCEL_SET_SELL";
+    let url = "http://lb_t:5000/CANCEL_SET_SELL";
 
     axios({
         method:'POST',
@@ -442,7 +442,7 @@ router.post('/dumplog', (req, res) => {
     console.log(req.body);
     const {filename} = req.body;
 
-    let url = "http://transaction_server:5000/DUMPLOG";
+    let url = "http://lb_t:5000/DUMPLOG";
 
     axios({
         method:'POST',
@@ -465,7 +465,7 @@ router.post('/userdumplog', (req, res) => {
     console.log(req.body);
     const {userid, filename} = req.body;
 
-    let url = "http://transaction_server:5000/USER_DUMPLOG";
+    let url = "http://lb_t:5000/USER_DUMPLOG";
 
     axios({
         method:'POST',
@@ -490,7 +490,7 @@ router.post('/displaysummary', (req, res) => {
 
     const {userid} = req.body;
         
-    let url = "http://transaction_server:5000/DISPLAY_SUMMARY";
+    let url = "http://lb_t:5000/DISPLAY_SUMMARY";
 
     axios({
         method:'POST',

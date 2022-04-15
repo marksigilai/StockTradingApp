@@ -3,12 +3,12 @@ version: '3'
 services:
   transactionserver:
     image: stocktradingapp/transaction_server
-    container_name: transaction_server
+
     build:
       context: ./UserActions
       dockerfile: Dockerfile_Engine
-    ports:
-      - 5000:5000
+    # ports:
+    #   - 5000:5000
     restart: on-failure
 
   # trigger:
@@ -42,11 +42,22 @@ services:
       - 3000:3000
     restart: on-failure
 
-  loadbalancer:
-    image: lb
-    container_name: load_balancer
+  lbtransac:
+    image: lb_t
+    container_name: lb_t
     build:
-      context: ./LoadBalancer
+      context: ./LbTransacServer
+    depends_on:
+      - transactionserver
+      - reactclient
+    ports: 
+      - 5000:5000
+
+  lbweb:
+    image: lb_w
+    container_name: lb_w
+    build:
+      context: ./LbWebServer
     depends_on:
       # - transactionserver
       - webserver
