@@ -21,10 +21,11 @@ def set_sell_amount(user_id, stock, stock_amount):
         projection={'_id': False, 'stocks': True}
     )
     print(stock_result)
+    existing_stocks = None
     for s in stock_result['stocks']:
         if stock == s['name']:
             existing_stocks = s['amount']
-    if existing_stocks < stock_amount:
+    if not existing_stocks or existing_stocks < stock_amount:
         return "Not sufficient stocks to sell"
 
     check_triggers_result = accounts_db.find_one(

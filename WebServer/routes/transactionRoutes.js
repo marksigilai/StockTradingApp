@@ -269,7 +269,7 @@ router.post('/cancelsell', (req, res) => {
         }
     })
     .then(function (response) {
-        console.log("Cancel sell response --> " + response)
+        // console.log("Cancel sell response --> " + response)
         res.status(201).json(response.data)
     })
     .catch(function (error) {
@@ -277,7 +277,7 @@ router.post('/cancelsell', (req, res) => {
         res.status(201).json({data: error})
     })
 
-    console.log('cancel sell requested');
+    // console.log('cancel sell requested');
 
 });
 
@@ -310,7 +310,7 @@ router.post('/setbuyamount', (req, res) => {
 //set buy trigger
 router.post('/setbuytrigger', async (req, res) => {
 
-    const {userid, stock, trigger} = req.body;
+    const {userid, stock, amount} = req.body;
 
     let url = "http://transaction_server:5000/SET_BUY_TRIGGER";
 
@@ -320,7 +320,7 @@ router.post('/setbuytrigger', async (req, res) => {
         data: {
             id: userid,
             stock: stock,
-            trigger: trigger
+            amount: amount
         }
     })
     .then(function (response) {
@@ -349,7 +349,7 @@ router.post('/cancelsetbuy', (req, res) => {
         }
     })
     .then(function (response) {
-        console.log("Cancel set buy response --> " + response)
+        // console.log("Cancel set buy response --> " + response)
         res.status(201).json(response.data)
     })
     .catch(function (error) {

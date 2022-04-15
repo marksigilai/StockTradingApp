@@ -4,7 +4,7 @@ import { SharedArray } from 'k6/data';
 import papaparse from 'https://jslib.k6.io/papaparse/5.1.1/index.js';
 
 const data = new SharedArray('commands', function () {
-  return papaparse.parse(open('./1user.csv')).data;
+  return papaparse.parse(open('./10users.txt')).data;
   // return papaparse.parse(open('./test.csv')).data;
 });
 
@@ -14,8 +14,15 @@ const buy_set_sell = ["BUY", "SELL", "SET_BUY_AMOUNT", "SET_BUY_TRIGGER", "SET_S
 const commit_cancel = ["COMMIT_BUY", "CANCEL_BUY", "COMMIT_SELL", "CANCEL_SELL", "DISPLAY_SUMMARY"];
 
 export const options = {
-  vus: 1,
+  // vus: 10,
+  // maxDuration: '60m'
   // duration: '10s'
+  scenarios: {
+    scenario1: {
+      executor: 'shared-iterations',
+      maxDuration: '60m',
+    },
+  },
 };
 
 export default function () {
@@ -28,7 +35,7 @@ export default function () {
   let payload = {};
 
   for (let i = 0; i < data.length; i++) {
-    let cmd0 = data[i][0];
+    let cmd0 = data[i][0].split(' ')[1];
     let cmd = cmd0.replace('_', '').replace('_', '');
     if (cmd == "ADD") {
       payload = {
@@ -70,8 +77,8 @@ export default function () {
       }
     }
     const url = base_url.concat(cmd);
-    console.log(url);
-    console.log(JSON.stringify(payload));
+    // console.log(url);
+    // console.log(JSON.stringify(payload));
     // console.log(params);
     http.post(url, JSON.stringify(payload), params);
   } //end for

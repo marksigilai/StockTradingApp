@@ -31,7 +31,7 @@ def get_user_stocks():
 
     
     result = accounts.get_user_stocks(user_id)
-    print("The info is --> ", result)
+    # print("The info is --> ", result)
     return jsonify(result)
 
 #Generic functions
@@ -145,11 +145,11 @@ def set_buy_stock_trigger():
     query_params = request.get_json()
     user_id = query_params["id"]
     stock_name = query_params["stock"]
-    trigger = float(query_params["trigger"])
+    amount = float(query_params["amount"])
 
     #query for quoteserver stock price
     #create and commit a buy action if the stock price <= trigger amount
-    result = setbuy.set_buy_trigger(user_id, stock_name, trigger)
+    result = setbuy.set_buy_trigger(user_id, stock_name, amount)
 
     return jsonify(result)
 

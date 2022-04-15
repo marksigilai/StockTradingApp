@@ -20,6 +20,7 @@ def start_sell(user_id, stock, amount):
         projection={'_id': False, 'stocks': True}
     )
     print(stock_result)
+    existing_stock = None
     for s in stock_result['stocks']:
         if stock == s['name']:
             existing_stock = s
