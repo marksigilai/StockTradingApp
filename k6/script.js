@@ -4,7 +4,7 @@ import { SharedArray } from 'k6/data';
 import papaparse from 'https://jslib.k6.io/papaparse/5.1.1/index.js';
 
 const data = new SharedArray('commands', function () {
-  return papaparse.parse(open('./final_workload_2019.txt')).data;
+  return papaparse.parse(open('./10users_nodumplog.txt')).data;
   // return papaparse.parse(open('./test.csv')).data;
 });
 
