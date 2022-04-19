@@ -3,13 +3,21 @@ version: '3'
 services:
   transactionserver:
     image: stocktradingapp/transaction_server
-
     build:
       context: ./UserActions
       dockerfile: Dockerfile_Engine
     # ports:
     #   - 5000:5000
     restart: on-failure
+  
+  quoteserver:
+    image: stocktradingapp/quote_server
+    build:
+      context: ./QuoteServer
+    ports:
+       - 7000:7000
+    restart: on-failure
+
 
   # trigger:
   #   image: stocktradingapp/triggers
@@ -31,39 +39,34 @@ services:
       - transactionserver
     restart: on-failure
 
-  # reactclient:
-  #   image: stocktradingapp/reactclient
-  #   container_name: react_client
-  #   build:
-  #     context: ./ReactClient
-  #   depends_on:
-  #     - webserver
-  #   ports:
-  #     - 3000:3000
-  #   restart: on-failure
+  reactclient:
+    image: stocktradingapp/reactclient
+    container_name: react_client
+    build:
+      context: ./ReactClient
+    depends_on:
+      - webserver
+    ports:
+      - 3000:3000
+    restart: on-failure
 
   lbtransac:
     image: lb_t
     container_name: lb_t
     build:
       context: ./LbTransacServer
-    depends_on:
-      - transactionserver
-      # - reactclient
     ports: 
       - 5000:5000
+    restart: on-failure
 
   lbweb:
     image: lb_w
     container_name: lb_w
     build:
       context: ./LbWebServer
-    depends_on:
-      # - transactionserver
-      - webserver
-      # - reactclient
     ports: 
       - 4000:4000
+    restart: on-failure
 
   mongo:
     image: mongo
