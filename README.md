@@ -1,17 +1,46 @@
 # StockTradingApp
-A simple scalable stock trading web app
+This project consisted of making a scalable stock trading app where users can create accounts, add virtual funds and complete trading transactions. 
 
-## To run this file
+# Architecture
 
-docker-compose up --scale webserver=3 --build
+![SENG468_soaktestv2 drawio](https://user-images.githubusercontent.com/56571667/177475209-9e38ef54-d17d-435d-a221-edc1044dc009.png)
+
+
+## Getting Started
+
+These instructions will cover usage information
+
+### Prerequisities
+
+In order to run this project you'll need docker installed.
+
+* [Windows](https://docs.docker.com/windows/started)
+* [OS X](https://docs.docker.com/mac/started/)
+* [Linux](https://docs.docker.com/linux/started/)``
+
+## To run 
+
+Clone the repo
+
+  git clone https://github.com/marksigilai/StockTradingApp.git
+
+Start the Docker Daemon
+
+In the project root directory:
+
+  docker-compose up --scale webserver=3 --build
 
 visit http://localhost:3000/ for the reactclient
 
 visit http://localhost:4000/ for the webserver
 
+## Authors
 
-## Required Functionality
-Following [this link](https://www.ece.uvic.ca/~seng468/ProjectWebSite/Commands.html), the below functionality is required to be implemented.
+* **Mark Sigilai**
+* **Mark Kaiser**
+
+## Supported Functionality
+Following [this link](https://www.ece.uvic.ca/~seng468/ProjectWebSite/Commands.html) shows descriptions for the supported functionality listed below.
 * ADD \[userid, amount\] 
 * QUOTE \[userid, StockSymbol\]
 * BUY \[userid, StockSymbol, amount\]
