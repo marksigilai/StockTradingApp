@@ -24,11 +24,18 @@ Clone the repo
 
     git clone https://github.com/marksigilai/StockTradingApp.git
 
+
 Start the Docker Daemon
+
 
 In the project root directory:
 
-    docker-compose up --scale webserver=3 --build
+    docker-compose up --scale webserver=3 --build --detach
+
+To stop the containers
+
+    docker-compose down
+    
 
 visit http://localhost:3000/ for the reactclient
 
