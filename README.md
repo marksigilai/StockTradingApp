@@ -22,13 +22,13 @@ In order to run this project you'll need docker installed.
 
 Clone the repo
 
-  git clone https://github.com/marksigilai/StockTradingApp.git
+    git clone https://github.com/marksigilai/StockTradingApp.git
 
 Start the Docker Daemon
 
 In the project root directory:
 
-  docker-compose up --scale webserver=3 --build
+    docker-compose up --scale webserver=3 --build
 
 visit http://localhost:3000/ for the reactclient
 
