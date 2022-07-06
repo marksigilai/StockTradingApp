@@ -22,12 +22,12 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
     const {username, password} = req.body;
 
-    console.log(req.body);
+    //console.log(req.body);
 
     try{
         const user = await User.login(username, password);
         const token = createToken(user._id);
-        console.log(token)
+        //console.log(token)
         
         //max age of 3 days
         res.cookie('jwt', token, {httpOnly: true, maxAge: 1000 * 3 * 24 * 60 * 60})
@@ -60,7 +60,7 @@ router.get('/signup', (req, res) => {
 //get sign up credentials
 router.post('/signup', async (req, res) => {
 
-    console.log(req.body);
+    //console.log(req.body);
     const {username, password} = req.body;
 
     try{
@@ -88,7 +88,7 @@ router.post('/signup', async (req, res) => {
 // create a GET route
 router.get('/express_backend', (req, res) => { //Line 9
     console.log("Express backend hit");
-    res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); //Line 10
+    res.send({ express: 'WebServer connected to ReactClient' }); //Line 10
   });
 
 
