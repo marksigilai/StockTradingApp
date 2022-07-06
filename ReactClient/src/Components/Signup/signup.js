@@ -113,7 +113,7 @@ class Signup extends Component {
                     <button className="Signup-submitBtn" type="submit">Register</button>
                 </div>
 
-                <small className="Signup-small">*You may use a fake email and password*</small>
+                <small className="Signup-small">*Use a fake email and password*</small>
 
 
                 <div> {this.state.err} </div>
