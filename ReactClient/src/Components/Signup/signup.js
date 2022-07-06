@@ -51,7 +51,9 @@ class Signup extends Component {
                     err:""
                 });
 
-                this.props.setToken(message.data.token)
+                //this.props.setToken(message.data.token)
+                this.props.setUserInfo(message.data.user, message.data.token)
+
 
             }
             else{
@@ -110,6 +112,9 @@ class Signup extends Component {
                 <div className="Signup-container">
                     <button className="Signup-submitBtn" type="submit">Register</button>
                 </div>
+
+                <small className="Signup-small">*You may use a fake email and password*</small>
+
 
                 <div> {this.state.err} </div>
             </form>

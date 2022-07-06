@@ -20,8 +20,9 @@ app.set('view engine', 'html');
 app.use(express.json());
 app.use(cookieParser());
 
-//get and post requests for the database
+//get and post requests for the database, this is unsafe:
 const db = 'mongodb+srv://sigilai:123qwa@spybot.fu5ki.mongodb.net/spybot-auth';
+//const db = 'mongodb+srv://sigilai:123qwa@spybot.fu5ki.mongodb.net/?retryWrites=true&w=majority'
 
 mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
 .then((result) => app.listen(7000))

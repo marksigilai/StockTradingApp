@@ -15,6 +15,11 @@
     font-size: 50px;
 }
 
+.Signup-small{
+    font-size: 10px;
+    color: rgb(165, 0, 0);
+}
+
 .Signup-container{
     width: 18rem;
     margin: 10px;
