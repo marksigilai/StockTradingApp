@@ -25,10 +25,10 @@ Clone the repo
     git clone https://github.com/marksigilai/StockTradingApp.git
 
 
-Start the Docker Daemon
+Ensure that the Docker Daemon is running.
 
 
-In the project root directory:
+In the project root directory run the following command
 
     docker-compose up --scale webserver=3 --build --detach
 
