@@ -16,7 +16,7 @@ In order to run this project you'll need docker installed.
 
 * [Windows](https://docs.docker.com/windows/started)
 * [OS X](https://docs.docker.com/mac/started/)
-* [Linux](https://docs.docker.com/linux/started/)``
+* [Linux](https://docs.docker.com/linux/started/)
 
 ## To run 
 
@@ -33,9 +33,8 @@ In the project root directory run the following command
     docker-compose up --scale webserver=3 --scale transactionserver=3 --build --detach
     
     
-visit http://localhost:3000/ for the reactclient
+Visit http://localhost:3000/ 
 
-visit http://localhost:4000/ for the webserver
 
 
 
