@@ -30,7 +30,7 @@ Ensure that the Docker Daemon is running.
 
 In the project root directory run the following command
 
-    docker-compose up --scale webserver=3 --build --detach
+    docker-compose up --scale webserver=3 --scale transactionserver=3 --build --detach
     
     
 visit http://localhost:3000/ for the reactclient
