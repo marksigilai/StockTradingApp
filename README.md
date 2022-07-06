@@ -16,7 +16,7 @@ In order to run this project you'll need docker installed.
 
 * [Windows](https://docs.docker.com/windows/started)
 * [OS X](https://docs.docker.com/mac/started/)
-* [Linux](https://docs.docker.com/linux/started/)``
+* [Linux](https://docs.docker.com/linux/started/)
 
 ## To run 
 
